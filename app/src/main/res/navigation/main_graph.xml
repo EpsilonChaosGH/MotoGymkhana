@@ -9,13 +9,24 @@
     <fragment
         android:id="@+id/menuFragment"
         android:name="com.example.motogymkhana.screens.menu.MenuFragment"
+        tools:layout="@layout/fragment_menu"
         android:label="MenuFragment" >
         <action
-            android:id="@+id/action_menuFragment_to_stageFragment"
-            app:destination="@id/stageFragment" />
+            android:id="@+id/action_menuFragment_to_championshipsFragment"
+            app:destination="@id/championshipsFragment" />
     </fragment>
     <fragment
         android:id="@+id/stageFragment"
+        tools:layout="@layout/fragment_stage"
         android:name="com.example.motogymkhana.screens.stage.StageFragment"
         android:label="StageFragment" />
+    <fragment
+        android:id="@+id/championshipsFragment"
+        android:name="com.example.motogymkhana.screens.championships.ChampionshipsFragment"
+        tools:layout="@layout/fragment_championships"
+        android:label="ChampionshipsFragment" >
+        <action
+            android:id="@+id/action_championshipsFragment_to_stageFragment"
+            app:destination="@id/stageFragment" />
+    </fragment>
 </navigation>

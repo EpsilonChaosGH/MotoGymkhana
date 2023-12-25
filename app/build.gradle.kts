@@ -5,6 +5,7 @@ plugins {
     id("dagger.hilt.android.plugin")
 
     kotlin("kapt")
+    id("com.google.gms.google-services")
 //    kotlin("kapt")
 //    id("com.google.dagger.hilt.android")
 }
@@ -60,6 +61,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
 
     implementation("com.google.dagger:hilt-android:2.44")
+    implementation("com.google.firebase:firebase-database:20.3.0")
     kapt("com.google.dagger:hilt-compiler:2.44")
     kaptAndroidTest("com.google.dagger:hilt-compiler:2.44")
 

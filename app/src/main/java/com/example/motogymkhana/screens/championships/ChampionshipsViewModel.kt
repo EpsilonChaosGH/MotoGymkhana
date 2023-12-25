@@ -1,5 +1,6 @@
-package com.example.motogymkhana.screens.stage
+package com.example.motogymkhana.screens.championships
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.motogymkhana.R
@@ -7,6 +8,7 @@ import com.example.motogymkhana.data.GymkhanaCupRepository
 import com.example.motogymkhana.mappers.toStageInfoState
 import com.example.motogymkhana.model.SideEffect
 import com.example.motogymkhana.model.StageInfoState
+import com.example.motogymkhana.model.Type
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +18,7 @@ import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
-class StageViewModel @Inject constructor(
+class ChampionshipsViewModel @Inject constructor(
     private val gymkhanaCupRepository: GymkhanaCupRepository
 ) : ViewModel() {
 
@@ -29,6 +31,7 @@ class StageViewModel @Inject constructor(
 
 
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
+        Log.e("aaa",exception.message.toString())
         exception.stackTrace
         val result = when (exception) {
             is IOException -> R.string.error
@@ -39,13 +42,13 @@ class StageViewModel @Inject constructor(
     }
 
 
+    init {
+        getStateInfo()
+    }
 
-    fun getStateInfo() {
+    private fun getStateInfo() {
         viewModelScope.launch(exceptionHandler) {
-           _state.value = gymkhanaCupRepository.getStateInfo(
-                id = "270",
-                type = "offline"
-            ).toStageInfoState()
+            gymkhanaCupRepository.getChampionships(Type.Offline.value)
         }
     }
 

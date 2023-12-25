@@ -1,8 +1,8 @@
 package com.example.motogymkhana.di
 
 
-import com.example.motogymkhana.data.StageRepository
-import com.example.motogymkhana.data.StageRepositoryImpl
+import com.example.motogymkhana.data.GymkhanaCupRepository
+import com.example.motogymkhana.data.GymkhanaCupRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,7 +14,7 @@ abstract class RepositoriesModule {
 
     @Binds
     abstract fun bindStageRepository(
-        stageRepositoryImpl: StageRepositoryImpl
-    ): StageRepository
+        stageRepositoryImpl: GymkhanaCupRepositoryImpl
+    ): GymkhanaCupRepository
 
 }

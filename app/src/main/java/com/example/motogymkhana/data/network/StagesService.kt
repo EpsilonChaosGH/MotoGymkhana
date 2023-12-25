@@ -7,7 +7,6 @@ import retrofit2.http.Query
 
 interface StagesService {
 
-
     @GET("stages/get?")
     suspend fun getStageInfo(
         @Query("signature") signature: String = Const.APP_ID,
