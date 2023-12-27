@@ -1,18 +1,18 @@
-package com.example.motogymkhana.screens.stage
+package com.example.motogymkhana.screens.stages
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.motogymkhana.databinding.ItemUserBinding
-import com.example.motogymkhana.model.UserResultState
+import com.example.motogymkhana.databinding.ItemStageBinding
+import com.example.motogymkhana.model.StageState
 
 interface StageListener {
 }
 
 class StageDiffCallback(
-    private val oldList: List<UserResultState>,
-    private val newList: List<UserResultState>
+    private val oldList: List<StageState>,
+    private val newList: List<StageState>
 ) : DiffUtil.Callback() {
     override fun getOldListSize(): Int = oldList.size
 
@@ -21,7 +21,7 @@ class StageDiffCallback(
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         val oldList = oldList[oldItemPosition]
         val newList = newList[newItemPosition]
-        return oldList.userFullName == newList.userFullName
+        return oldList.stageID == newList.stageID
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
@@ -35,16 +35,16 @@ class StageAdapter(
     private val stageListener: StageListener
 ) : RecyclerView.Adapter<StageAdapter.ViewHolder>() {
     class ViewHolder(
-        private val binding: ItemUserBinding
+        private val binding: ItemStageBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun onBind(item: UserResultState, listener: StageListener) = with(binding) {
+        fun onBind(item: StageState, listener: StageListener) = with(binding) {
 
-            userTextView.text = item.userFullName
-            timeTextView.text = item.bestTime
+            dataTextView.text = item.dateOfThe
+            stageTitleTextView.text = item.title
         }
     }
 
-    var items = listOf<UserResultState>()
+    var items = listOf<StageState>()
         set(newValue) {
             val diffCallback = StageDiffCallback(field, newValue)
             val diffResult = DiffUtil.calculateDiff(diffCallback)
@@ -54,7 +54,7 @@ class StageAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
-            ItemUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemStageBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 

@@ -1,4 +1,4 @@
-package com.example.motogymkhana.data.network
+package com.example.motogymkhana.data.model
 
 import com.squareup.moshi.Json
 

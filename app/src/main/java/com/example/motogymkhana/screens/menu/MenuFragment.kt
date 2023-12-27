@@ -68,7 +68,7 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
     }
 
     private fun openChampionships(){
-        findNavController().navigate(R.id.action_menuFragment_to_championshipsFragment)
+        findNavController().navigate(R.id.action_menuFragment_to_stagesFragment)
     }
 
 }

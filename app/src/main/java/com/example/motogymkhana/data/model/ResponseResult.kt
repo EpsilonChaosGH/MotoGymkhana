@@ -1,4 +1,4 @@
-package com.example.motogymkhana.data
+package com.example.motogymkhana.data.model
 
 import android.content.res.Resources.NotFoundException
 import retrofit2.Response

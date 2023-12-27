@@ -1,34 +1,54 @@
-package com.example.motogymkhana.screens.stage
+package com.example.motogymkhana.screens.stages
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.motogymkhana.R
+import com.example.motogymkhana.WhileUiSubscribed
 import com.example.motogymkhana.data.GymkhanaCupRepository
-import com.example.motogymkhana.mappers.toStageInfoState
+import com.example.motogymkhana.mappers.toStageState
 import com.example.motogymkhana.model.SideEffect
-import com.example.motogymkhana.model.StageInfoState
+import com.example.motogymkhana.model.StageState
+import com.example.motogymkhana.model.StagesScreenState
+import com.example.motogymkhana.model.Type
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
-class StageViewModel @Inject constructor(
+class StagesViewModel @Inject constructor(
     private val gymkhanaCupRepository: GymkhanaCupRepository
 ) : ViewModel() {
 
+    private val _stages = MutableStateFlow(listOf<StageState>())
     private val _userMessage = MutableStateFlow<SideEffect<Int?>>(SideEffect(null))
-    val userMessage = _userMessage.asStateFlow()
     private val _isLoading = MutableStateFlow(false)
 
-    private val _state = MutableStateFlow<StageInfoState?>(null)
-    val state = _state.asStateFlow()
-
+    val uiState: StateFlow<StagesScreenState?> = combine(
+        _stages,
+        _userMessage,
+        _isLoading,
+    ) { stages, userMessage, isLoading->
+        StagesScreenState(
+            stages = stages,
+            userMessage = userMessage,
+            isLoading = isLoading
+        )
+    }.stateIn(
+        viewModelScope,
+        WhileUiSubscribed,
+        null
+    )
 
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
+        Log.e("aaa",exception.message.toString())
         exception.stackTrace
         val result = when (exception) {
             is IOException -> R.string.error
@@ -38,14 +58,15 @@ class StageViewModel @Inject constructor(
         setLoading(false)
     }
 
+    init {
+        loadStages()
+    }
 
-
-    fun getStateInfo() {
+    private fun loadStages() {
         viewModelScope.launch(exceptionHandler) {
-           _state.value = gymkhanaCupRepository.getStateInfo(
-                id = "270",
-                type = "offline"
-            ).toStageInfoState()
+            setLoading(true)
+            _stages.value = gymkhanaCupRepository.getStageList(Type.Offline.value).sortedBy { it.dateOfThe }.map { it.toStageState() }
+            setLoading(false)
         }
     }
 

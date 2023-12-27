@@ -12,21 +12,21 @@
         tools:layout="@layout/fragment_menu"
         android:label="MenuFragment" >
         <action
-            android:id="@+id/action_menuFragment_to_championshipsFragment"
-            app:destination="@id/championshipsFragment" />
+            android:id="@+id/action_menuFragment_to_stagesFragment"
+            app:destination="@id/stagesFragment" />
     </fragment>
     <fragment
-        android:id="@+id/stageFragment"
-        tools:layout="@layout/fragment_stage"
-        android:name="com.example.motogymkhana.screens.stage.StageFragment"
-        android:label="StageFragment" />
-    <fragment
-        android:id="@+id/championshipsFragment"
-        android:name="com.example.motogymkhana.screens.championships.ChampionshipsFragment"
-        tools:layout="@layout/fragment_championships"
-        android:label="ChampionshipsFragment" >
+        android:id="@+id/stagesFragment"
+        tools:layout="@layout/fragment_stages"
+        android:name="com.example.motogymkhana.screens.stages.StagesFragment"
+        android:label="StagesFragment" >
         <action
-            android:id="@+id/action_championshipsFragment_to_stageFragment"
-            app:destination="@id/stageFragment" />
+            android:id="@+id/action_stagesFragment_to_stageDetailsFragment"
+            app:destination="@id/stageDetailsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/stageDetailsFragment"
+        tools:layout="@layout/fragment_stage_details"
+        android:name="com.example.motogymkhana.screens.stagedetails.StageDetailsFragment"
+        android:label="StageDetailsFragment" />
 </navigation>

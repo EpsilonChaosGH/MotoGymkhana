@@ -1,7 +1,11 @@
 package com.example.motogymkhana.mappers
 
-import com.example.motogymkhana.data.network.StageInfoResponse
+import com.example.motogymkhana.FORMAT_dd_MM_yyyy
+import com.example.motogymkhana.data.model.StageInfoResponse
+import com.example.motogymkhana.data.model.StageResponse
+import com.example.motogymkhana.format
 import com.example.motogymkhana.model.StageInfoState
+import com.example.motogymkhana.model.StageState
 import com.example.motogymkhana.model.UserResultState
 
 fun StageInfoResponse.toStageInfoState() = StageInfoState(
@@ -20,6 +24,12 @@ fun StageInfoResponse.toStageInfoState() = StageInfoState(
     referenceTimeSeconds = referenceTimeSeconds,
     referenceTime = referenceTime,
     results = results.map { it.toUserResultState() }
+)
+
+fun StageResponse.toStageState() = StageState(
+    stageID = stageID,
+    title = title,
+    dateOfThe = dateOfThe.format(FORMAT_dd_MM_yyyy)
 )
 
 private fun StageInfoResponse.UserResult.toUserResultState() = UserResultState(

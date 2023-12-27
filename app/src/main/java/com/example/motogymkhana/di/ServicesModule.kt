@@ -1,7 +1,6 @@
 package com.example.motogymkhana.di
 
-import com.example.motogymkhana.data.network.ChampionshipsService
-import com.example.motogymkhana.data.network.StagesService
+import com.example.motogymkhana.data.network.GymkhanaService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,13 +15,8 @@ object ServicesModule {
 
     @Provides
     @Singleton
-    fun providesStagesService(retrofit: Retrofit): StagesService {
-        return retrofit.create(StagesService::class.java)
+    fun providesStagesService(retrofit: Retrofit): GymkhanaService {
+        return retrofit.create(GymkhanaService::class.java)
     }
 
-    @Provides
-    @Singleton
-    fun providesChampionshipsService(retrofit: Retrofit): ChampionshipsService {
-        return retrofit.create(ChampionshipsService::class.java)
-    }
 }

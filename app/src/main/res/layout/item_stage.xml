@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/layout_bg"
+    android:padding="@dimen/low_space"
+    android:layout_marginStart="@dimen/low_space"
+    android:layout_marginEnd="@dimen/low_space"
+    android:layout_marginBottom="@dimen/low_space"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/dataTextView"
+        style="@style/TitleTextView"
+        tools:text="11.01.2023"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/stageTitleTextView"
+        style="@style/ValueTextView"
+        android:layout_width="0dp"
+        android:layout_marginStart="@dimen/medium_space"
+        tools:text="12-й этап чемпионата Тверской области. 5-й этап чемпионата Северо-запада"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/dataTextView"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

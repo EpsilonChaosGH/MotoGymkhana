@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="low_space">6dp</dimen>
+    <dimen name="medium_space">20dp</dimen>
+    <dimen name="large_space">30dp</dimen>
+    <dimen name="big_space">92dp</dimen>
+    <dimen name="big_width">320dp</dimen>
+
+    <dimen name="banner_weight">320dp</dimen>
+    <dimen name="banner_height">50dp</dimen>
+
+</resources>
