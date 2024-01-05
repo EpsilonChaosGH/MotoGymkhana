@@ -3,12 +3,15 @@ package com.example.motogymkhana.screens.stagedetails
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.example.motogymkhana.Const
 import com.example.motogymkhana.R
 import com.example.motogymkhana.databinding.FragmentStageDetailsBinding
+import com.example.motogymkhana.model.Type
 import com.example.motogymkhana.model.collectFlow
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,26 +30,26 @@ class StageDetailsFragment : Fragment(R.layout.fragment_stage_details) {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
+        val stageId = requireArguments().getLong(Const.STAGE_ID_KEY)
 
-        viewModel.getStateInfo()
+        viewModel.getStageInfo(id = stageId.toString(), type = Type.Offline.value)
 
-
-        observeMessage()
-        observeStageState()
+        observeStagesState()
     }
 
-    private fun observeStageState() = with(binding) {
-        collectFlow(viewModel.state) { state ->
-            textView2.text = state.champTitle
-            adapter.items = state.results
-        }
-    }
+    private fun observeStagesState() = with(binding) {
+        collectFlow(viewModel.uiState) { state ->
 
-    private fun observeMessage() = with(binding) {
-        collectFlow(viewModel.userMessage) { message ->
-            message.get()?.let {
+            state.stageInfo?.let {
+                adapter.items = it.results
+            }
+
+            progressBar.isVisible = state.isLoading
+
+            state.userMessage.get()?.let {
                 Toast.makeText(requireContext(), getString(it), Toast.LENGTH_SHORT).show()
             }
         }
     }
+
 }

@@ -1,15 +1,17 @@
-package com.example.motogymkhana.screens.stagedetails
+package com.example.motogymkhana.screens.menu
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.motogymkhana.R
 import com.example.motogymkhana.WhileUiSubscribed
+import com.example.motogymkhana.data.FavoritesRepository
 import com.example.motogymkhana.data.GymkhanaCupRepository
-import com.example.motogymkhana.mappers.toStageInfoState
+import com.example.motogymkhana.mappers.toStageState
 import com.example.motogymkhana.model.SideEffect
-import com.example.motogymkhana.model.StageInfoState
-import com.example.motogymkhana.model.StagesDetailsScreenState
+import com.example.motogymkhana.model.StageState
+import com.example.motogymkhana.model.StagesScreenState
+import com.example.motogymkhana.model.Type
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,21 +23,22 @@ import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
-class StageDetailsViewModel @Inject constructor(
+class MenuViewModel @Inject constructor(
+    private val favoritesRepository: FavoritesRepository,
     private val gymkhanaCupRepository: GymkhanaCupRepository
 ) : ViewModel() {
 
-    private val _stageInfo = MutableStateFlow<StageInfoState?>(null)
+    private val _stages = MutableStateFlow(listOf<StageState>())
     private val _userMessage = MutableStateFlow<SideEffect<Int?>>(SideEffect(null))
     private val _isLoading = MutableStateFlow(false)
 
-    val uiState: StateFlow<StagesDetailsScreenState?> = combine(
-        _stageInfo,
+    val uiState: StateFlow<StagesScreenState?> = combine(
+        _stages,
         _userMessage,
         _isLoading,
-    ) { stageInfo, userMessage, isLoading->
-        StagesDetailsScreenState(
-            stageInfo  = stageInfo,
+    ) { stages, userMessage, isLoading->
+        StagesScreenState(
+            stages = stages,
             userMessage = userMessage,
             isLoading = isLoading
         )
@@ -45,10 +48,9 @@ class StageDetailsViewModel @Inject constructor(
         null
     )
 
-
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
+        Log.e("aaa",exception.message.toString())
         exception.stackTrace
-        Log.e("aaaerror",exception.message.toString())
         val result = when (exception) {
             is IOException -> R.string.error
             else -> R.string.error
@@ -57,23 +59,35 @@ class StageDetailsViewModel @Inject constructor(
         setLoading(false)
     }
 
-    fun getStageInfo(id: String, type: String) {
+    init {
+//        addStageIdToFavorites(270)
+//        addStageIdToFavorites(271)
+        loadStages()
+    }
+
+    private fun loadStages() {
+
         viewModelScope.launch(exceptionHandler) {
-            setLoading(true)
-            _stageInfo.value = gymkhanaCupRepository.getStageInfo(id, type).toStageInfoState()
-//            gymkhanaCupRepository.getStageInfo(id, type).results.map {
-//                it.attemtps.map {
-//                    it.time
-//                }
-//            }
-//            gymkhanaCupRepository.getStageInfo(id, type).results.map {
-//                it.attemtps.size
-//                it.attemtps.map {
-//                    it.time
-//                    Log.e("aaa",it.time)
-//                }
-//            }
-            setLoading(false)
+            favoritesRepository.getFavoritesFlow().collect{favorites ->
+                setLoading(true)
+                _stages.value = gymkhanaCupRepository.getFavoriteStagesList(
+                    type = Type.Offline.value,
+                    ids = favorites
+                ).sortedBy { it.dateOfThe }.map { it.toStageState(favorites) }
+                setLoading(false)
+            }
+        }
+    }
+
+    fun addStageIdToFavorites(id: Long) {
+        viewModelScope.launch(exceptionHandler) {
+            favoritesRepository.addStageIdToFavorites(id)
+        }
+    }
+
+    fun deleteFromFavoritesByStageId(id: Long) {
+        viewModelScope.launch(exceptionHandler) {
+            favoritesRepository.deleteFromFavoritesByStageId(id)
         }
     }
 

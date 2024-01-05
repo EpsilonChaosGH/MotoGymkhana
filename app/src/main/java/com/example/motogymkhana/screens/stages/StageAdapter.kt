@@ -2,12 +2,21 @@ package com.example.motogymkhana.screens.stages
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.motogymkhana.R
 import com.example.motogymkhana.databinding.ItemStageBinding
 import com.example.motogymkhana.model.StageState
+import kotlinx.coroutines.launch
 
 interface StageListener {
+
+    fun showStageDetails(id: Long)
+
+    fun addStageIdToFavorites(id: Long)
+    fun deleteFromFavoritesByStageId(id: Long)
+
 }
 
 class StageDiffCallback(
@@ -38,6 +47,22 @@ class StageAdapter(
         private val binding: ItemStageBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(item: StageState, listener: StageListener) = with(binding) {
+
+            if (item.isFavorites){
+                favoriteImageView.setImageResource(R.drawable.ic_favorite)
+            } else {
+                favoriteImageView.setImageResource(R.drawable.ic_favorite_false)
+            }
+
+            favoriteImageView.setOnClickListener {
+                if (item.isFavorites){
+                    listener.deleteFromFavoritesByStageId(item.stageID)
+                } else {
+                    listener.addStageIdToFavorites(item.stageID)
+                }
+            }
+
+            itemView.setOnClickListener { listener.showStageDetails(item.stageID) }
 
             dataTextView.text = item.dateOfThe
             stageTitleTextView.text = item.title

@@ -5,8 +5,8 @@ import com.squareup.moshi.Json
 
 data class StageResponse(
 
-    @Json(name = "id")
-    val stageID: Long,
+    @field:Json(name = "id")
+    val stageId: Long,
 
     val title: String,
     val dateOfThe: Long,

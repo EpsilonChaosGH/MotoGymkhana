@@ -65,10 +65,10 @@ dependencies {
     kapt("com.google.dagger:hilt-compiler:2.44")
     kaptAndroidTest("com.google.dagger:hilt-compiler:2.44")
 
-    //Hilt
-//    implementation("com.google.dagger:hilt-android:2.44")
-//    annotationProcessor("com.google.dagger:hilt-android-compiler:2.44")
-//    kapt("com.google.dagger:hilt-android-compiler:2.44")
+
+    implementation("androidx.room:room-runtime:2.5.1")
+    implementation("androidx.room:room-ktx:2.5.1")
+    kapt("androidx.room:room-compiler:2.5.1")
 
     //Navigation components
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.5")

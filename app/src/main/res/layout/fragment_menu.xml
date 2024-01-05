@@ -6,6 +6,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/background"
+        app:layout_constraintBottom_toTopOf="@+id/openStageButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/favorites_list_is_empty"
+            android:textColor="@color/onBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background"
+            android:visibility="gone"
+            tools:context=".app.screens.main.favorites.FavoritesFragment" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <Button
         android:id="@+id/openStageButton"
         android:layout_width="wrap_content"
@@ -13,40 +43,20 @@
         android:text="OPEN STAGES"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 
-
-
-    <Button
-        android:id="@+id/saveButton"
-        android:layout_width="wrap_content"
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SAVE"
-        app:layout_constraintBottom_toTopOf="@+id/openStageButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextText" />
-
-    <EditText
-        android:id="@+id/editTextText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text"
-        android:text="Name"
-        app:layout_constraintBottom_toTopOf="@+id/openStageButton"
+        android:visibility="gone"
+        android:layout_marginTop="60dp"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/onBackground"
+        android:indeterminateTintMode="src_atop"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        app:layout_constraintBottom_toTopOf="@+id/editTextText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

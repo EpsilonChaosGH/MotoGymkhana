@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.motogymkhana.R
 import com.example.motogymkhana.WhileUiSubscribed
+import com.example.motogymkhana.data.FavoritesRepository
 import com.example.motogymkhana.data.GymkhanaCupRepository
 import com.example.motogymkhana.mappers.toStageState
 import com.example.motogymkhana.model.SideEffect
@@ -15,8 +16,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -24,7 +25,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StagesViewModel @Inject constructor(
-    private val gymkhanaCupRepository: GymkhanaCupRepository
+    private val gymkhanaCupRepository: GymkhanaCupRepository,
+    private val favoritesRepository: FavoritesRepository
 ) : ViewModel() {
 
     private val _stages = MutableStateFlow(listOf<StageState>())
@@ -35,7 +37,7 @@ class StagesViewModel @Inject constructor(
         _stages,
         _userMessage,
         _isLoading,
-    ) { stages, userMessage, isLoading->
+    ) { stages, userMessage, isLoading ->
         StagesScreenState(
             stages = stages,
             userMessage = userMessage,
@@ -48,7 +50,7 @@ class StagesViewModel @Inject constructor(
     )
 
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
-        Log.e("aaa",exception.message.toString())
+        Log.e("aaa", exception.message.toString())
         exception.stackTrace
         val result = when (exception) {
             is IOException -> R.string.error
@@ -62,10 +64,24 @@ class StagesViewModel @Inject constructor(
         loadStages()
     }
 
+    fun addStageIdToFavorites(id: Long) {
+        viewModelScope.launch(exceptionHandler) {
+            favoritesRepository.addStageIdToFavorites(id)
+        }
+    }
+
+    fun deleteFromFavoritesByStageId(id: Long) {
+        viewModelScope.launch(exceptionHandler) {
+            favoritesRepository.deleteFromFavoritesByStageId(id)
+        }
+    }
+
     private fun loadStages() {
         viewModelScope.launch(exceptionHandler) {
             setLoading(true)
-            _stages.value = gymkhanaCupRepository.getStageList(Type.Offline.value).sortedBy { it.dateOfThe }.map { it.toStageState() }
+            _stages.value =
+                gymkhanaCupRepository.getStagesList(Type.Offline.value).sortedBy { it.dateOfThe }
+                    .map { it.toStageState(favoritesRepository.getFavoritesFlow().first()) }
             setLoading(false)
         }
     }

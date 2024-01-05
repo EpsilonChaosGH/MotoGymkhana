@@ -3,4 +3,5 @@
 
     <string name="error">ERROR!!!</string>
     <string name="stages">STAGES</string>
+    <string name="favorites_list_is_empty">favorites list is empty</string>
 </resources>

@@ -14,7 +14,7 @@
         android:id="@+id/dataTextView"
         style="@style/TitleTextView"
         tools:text="11.01.2023"
-        android:textSize="22sp"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,9 +24,19 @@
         style="@style/ValueTextView"
         android:layout_width="0dp"
         android:layout_marginStart="@dimen/medium_space"
-        tools:text="12-й этап чемпионата Тверской области. 5-й этап чемпионата Северо-запада"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/favoriteImageView"
         app:layout_constraintStart_toEndOf="@+id/dataTextView"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="12-й этап чемпионата Тверской области. 5-й этап чемпионата Северо-запада" />
+
+    <ImageView
+        android:id="@+id/favoriteImageView"
+        android:layout_width="44dp"
+        android:layout_height="44dp"
+        android:src="@drawable/ic_favorite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

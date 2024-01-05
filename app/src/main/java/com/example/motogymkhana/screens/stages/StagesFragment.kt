@@ -3,11 +3,14 @@ package com.example.motogymkhana.screens.stages
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.example.motogymkhana.Const
 import com.example.motogymkhana.R
 import com.example.motogymkhana.databinding.FragmentStagesBinding
 import com.example.motogymkhana.model.collectFlow
@@ -20,7 +23,24 @@ class StagesFragment : Fragment(R.layout.fragment_stages) {
 
     private val viewModel by viewModels<StagesViewModel>()
 
-    private val adapter = StageAdapter(object : StageListener{})
+    private val adapter = StageAdapter(object : StageListener{
+        override fun showStageDetails(id: Long) {
+
+            findNavController().navigate(
+                R.id.action_stagesFragment_to_stageDetailsFragment,
+                bundleOf(Const.STAGE_ID_KEY to id)
+            )
+
+        }
+
+        override fun addStageIdToFavorites(id: Long) {
+            viewModel.addStageIdToFavorites(id)
+        }
+
+        override fun deleteFromFavoritesByStageId(id: Long) {
+            viewModel.deleteFromFavoritesByStageId(id)
+        }
+    })
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {

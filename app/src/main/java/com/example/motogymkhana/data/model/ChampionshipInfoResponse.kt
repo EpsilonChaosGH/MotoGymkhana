@@ -17,10 +17,10 @@ data class ChampionshipInfoResponse(
         val description: String,
         val usersCount: Long,
 
-        @Json(name = "class")
+        @field:Json(name = "class")
         val stageClass: String? = null,
 
-        @Json(name = "trackUrl")
+        @field:Json(name = "trackUrl")
         val trackURL: String? = null,
 
         val city: String,
@@ -30,7 +30,7 @@ data class ChampionshipInfoResponse(
         val bestTimeSeconds: Long? = null,
         val bestTime: String? = null,
 
-        @Json(name = "bestUserId")
+        @field:Json(name = "bestUserId")
         val bestUserID: Long? = null,
 
         val bestUserFirstName: String? = null,

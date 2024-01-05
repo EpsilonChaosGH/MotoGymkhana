@@ -1,5 +1,6 @@
 package com.example.motogymkhana.mappers
 
+import android.util.Log
 import com.example.motogymkhana.FORMAT_dd_MM_yyyy
 import com.example.motogymkhana.data.model.StageInfoResponse
 import com.example.motogymkhana.data.model.StageResponse
@@ -9,7 +10,7 @@ import com.example.motogymkhana.model.StageState
 import com.example.motogymkhana.model.UserResultState
 
 fun StageInfoResponse.toStageInfoState() = StageInfoState(
-    stageID = stageID,
+    stageID = stageId,
     champID = champID,
     classes = classes,
     champTitle = champTitle,
@@ -26,10 +27,11 @@ fun StageInfoResponse.toStageInfoState() = StageInfoState(
     results = results.map { it.toUserResultState() }
 )
 
-fun StageResponse.toStageState() = StageState(
-    stageID = stageID,
+fun StageResponse.toStageState(favoritesList: List<Long>) = StageState(
+    stageID = stageId,
     title = title,
-    dateOfThe = dateOfThe.format(FORMAT_dd_MM_yyyy)
+    dateOfThe = dateOfThe.format(FORMAT_dd_MM_yyyy),
+    isFavorites = favoritesList.contains(stageId)
 )
 
 private fun StageInfoResponse.UserResult.toUserResultState() = UserResultState(

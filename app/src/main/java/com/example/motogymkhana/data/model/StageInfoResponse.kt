@@ -5,10 +5,10 @@ import com.squareup.moshi.Json
 
 data class StageInfoResponse(
 
-    @Json(name = "id")
-    val stageID: Long,
+    @field:Json(name = "id")
+    val stageId: Long,
 
-    @Json(name = "champId")
+    @field:Json(name = "champId")
     val champID: Long,
 
     val classes: List<String>,
@@ -18,7 +18,7 @@ data class StageInfoResponse(
     val description: String,
     val usersCount: Long,
 
-    @Json(name = "class")
+    @field:Json(name = "class")
     val stageClass: String?,
     val trackUrl: String,
     val city: String,
@@ -29,7 +29,7 @@ data class StageInfoResponse(
 ) {
 
     data class UserResult(
-        @Json(name = "userId")
+        @field:Json(name = "userId")
         val userID: Long,
 
         val userFullName: String,

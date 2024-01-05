@@ -2,7 +2,6 @@ package com.example.motogymkhana.data
 
 
 import android.util.Log
-import android.widget.Toast
 import com.example.motogymkhana.data.model.getResult
 import com.example.motogymkhana.data.model.ChampionshipInfoResponse
 import com.example.motogymkhana.data.network.GymkhanaService
@@ -19,36 +18,37 @@ import javax.inject.Singleton
 class GymkhanaCupRepositoryImpl @Inject constructor(
     private val gymkhanaService: GymkhanaService
 ) : GymkhanaCupRepository {
-    override suspend fun getStateInfo(id: String, type: String): StageInfoResponse {
+    override suspend fun getStageInfo(id: String, type: String): StageInfoResponse {
         return gymkhanaService.getStageInfo(id = id, type = type).getResult()
     }
 
-    override suspend fun getStageList(type: String): List<StageResponse> = withContext(Dispatchers.IO) {
-        val stagesIdList = mutableListOf<Long>()
-        getChampionships(type).map {
-            it.stages.map {
-                stagesIdList.add(it.id)
+    override suspend fun getStagesList(type: String): List<StageResponse> =
+        withContext(Dispatchers.IO) {
+            val stagesIdList = mutableListOf<Long>()
+            getChampionships(type).map { it.stages.map { stagesIdList.add(it.id) } }
+
+            val stages = mutableListOf<StageResponse>()
+            stagesIdList.map {
+                async { gymkhanaService.getStage(id = it.toString(), type = type).getResult() }
+            }.awaitAll().forEach {
+                Log.e("aaa1", it.title)
+                stages.add(it)
             }
+            return@withContext stages
         }
 
-        Log.e("aaa","stagesIdList")
-        val stages = mutableListOf<StageResponse>()
+    override suspend fun getFavoriteStagesList(type: String, ids: List<Long>): List<StageResponse> =
+        withContext(Dispatchers.IO) {
+            val stages = mutableListOf<StageResponse>()
 
-        stagesIdList.map {
-            async {
-                gymkhanaService.getStage(
-                    id = it.toString(),
-                    type = type
-                ).getResult().also {
-                    Log.e("aaa",it.title)
-                }
+            ids.map {
+                async { gymkhanaService.getStage(id = it.toString(), type = type).getResult() }
+            }.awaitAll().forEach {
+                Log.e("aaa22", it.stageId.toString())
+                stages.add(it)
             }
-        }.awaitAll().forEach {
-            Log.e("aaa",it.title)
-            stages.add(it)
+            return@withContext stages
         }
-        return@withContext stages
-    }
 
     private suspend fun getChampionships(type: String): List<ChampionshipInfoResponse> =
         withContext(Dispatchers.IO) {
@@ -58,12 +58,10 @@ class GymkhanaCupRepositoryImpl @Inject constructor(
 
             idList.map {
                 async {
-                    gymkhanaService.getChampionshipInfo(
-                        id = it.id.toString(),
-                        type = type
-                    ).getResult()
+                    gymkhanaService.getChampionshipInfo(id = it.id.toString(), type = type).getResult()
                 }
             }.awaitAll().forEach {
+                Log.e("aaa2", it.title)
                 championships.add(it)
             }
             return@withContext championships

@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "288884047768",
+    "firebase_url": "https://moto-gymkhana-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "moto-gymkhana",
+    "storage_bucket": "moto-gymkhana.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:288884047768:android:64b03191cb3d8e252fb5ed",
+        "android_client_info": {
+          "package_name": "com.example.motogymkhana"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbVswWZsE-UrvOuHFkWdFXNmyHU6uGEiU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
