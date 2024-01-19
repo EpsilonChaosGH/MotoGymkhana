@@ -2,45 +2,52 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/background"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/background"
-        app:layout_constraintBottom_toTopOf="@+id/openStageButton"
+    <TextView
+        android:id="@+id/favoritesTextView"
+        style="@style/TitleTextView"
+        android:layout_width="0dp"
+        android:layout_margin="@dimen/medium_space"
+        android:background="@drawable/layout_bg"
+        android:padding="@dimen/low_space"
+        android:text="@string/favorites_title"
+        android:textColor="@color/white"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/favorites_list_is_empty"
-            android:textColor="@color/onBackground"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/background"
-            android:visibility="gone"
-            tools:context=".app.screens.main.favorites.FavoritesFragment" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <Button
-        android:id="@+id/openStageButton"
+    <TextView
+        android:id="@+id/favoritesEmptyTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="OPEN STAGES"
+        android:text="@string/favorites_list_is_empty"
+        android:textColor="@color/onBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/medium_space"
+        android:layout_marginBottom="@dimen/medium_space"
+        android:background="@color/background"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/openChampionshipsButton"
+        app:layout_constraintTop_toBottomOf="@+id/favoritesTextView"
+        tools:context=".app.screens.main.favorites.FavoritesFragment" />
+
+    <Button
+        android:id="@+id/openChampionshipsButton"
+        style="@style/ButtonStyle"
+        android:layout_margin="@dimen/medium_space"
+        android:text="@string/open_championships_bt"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -49,14 +56,12 @@
         android:id="@+id/progressBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:layout_marginTop="60dp"
+        android:layout_marginBottom="120dp"
         android:indeterminate="true"
         android:indeterminateTint="@color/onBackground"
         android:indeterminateTintMode="src_atop"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.example.motogymkhana.model
+package com.example.motogymkhana.utils
 
 class SideEffect<T>(
     value: T

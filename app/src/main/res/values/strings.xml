@@ -1,7 +1,20 @@
 <resources>
     <string name="app_name">Moto gymkhana</string>
 
+    <!--    TOASTS-->
     <string name="error">ERROR!!!</string>
-    <string name="stages">STAGES</string>
+
+
+    <!--    TITLES-->
+    <string name="stages_title">STAGES</string>
+    <string name="championships_title">CHAMPIONSHIPS</string>
+    <string name="favorites_title">FAVORITES</string>
+
+
+    <!--    BUTTONS-->
+    <string name="open_championships_bt">OPEN CHAMPIONSHIPS</string>
+
+
     <string name="favorites_list_is_empty">favorites list is empty</string>
+
 </resources>

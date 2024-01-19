@@ -4,10 +4,11 @@ plugins {
 
     id("dagger.hilt.android.plugin")
 
+    id("kotlin-parcelize")
+
     kotlin("kapt")
+
     id("com.google.gms.google-services")
-//    kotlin("kapt")
-//    id("com.google.dagger.hilt.android")
 }
 
 android {

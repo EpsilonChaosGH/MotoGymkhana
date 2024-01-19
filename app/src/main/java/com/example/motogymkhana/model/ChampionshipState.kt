@@ -1,5 +1,10 @@
 package com.example.motogymkhana.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+
+@Parcelize
 data class ChampionshipState(
     val id: Long,
     val title: String,
@@ -7,6 +12,4 @@ data class ChampionshipState(
     val description: String,
     val stagesCount: Long,
     val type: String
-) {
-//    fun String.toEnumType() =
-}
+): Parcelable

@@ -1,10 +1,9 @@
 package com.example.motogymkhana.mappers
 
-import android.util.Log
-import com.example.motogymkhana.FORMAT_dd_MM_yyyy
+import com.example.motogymkhana.utils.FORMAT_dd_MM_yyyy
 import com.example.motogymkhana.data.model.StageInfoResponse
 import com.example.motogymkhana.data.model.StageResponse
-import com.example.motogymkhana.format
+import com.example.motogymkhana.utils.format
 import com.example.motogymkhana.model.StageInfoState
 import com.example.motogymkhana.model.StageState
 import com.example.motogymkhana.model.UserResultState
@@ -12,18 +11,18 @@ import com.example.motogymkhana.model.UserResultState
 fun StageInfoResponse.toStageInfoState() = StageInfoState(
     stageID = stageId,
     champID = champID,
-    classes = classes,
+//    classes = classes,
     champTitle = champTitle,
-    status = status,
+//    status = status,
     title = title,
-    description = description,
-    usersCount = usersCount,
-    stageClass = stageClass,
-    trackURL = trackUrl,
-    city = city,
+//    description = description,
+//    usersCount = usersCount,
+//    stageClass = stageClass,
+//    trackURL = trackUrl,
+//    city = city,
     dateOfThe = dateOfThe,
-    referenceTimeSeconds = referenceTimeSeconds,
-    referenceTime = referenceTime,
+//    referenceTimeSeconds = referenceTimeSeconds,
+//    referenceTime = referenceTime,
     results = results.map { it.toUserResultState() }
 )
 
@@ -43,6 +42,7 @@ private fun StageInfoResponse.UserResult.toUserResultState() = UserResultState(
     motorcycle = motorcycle,
     athleteClass = athleteClass,
     placeInAthleteClass = placeInAthleteClass,
+    champClass = champClass ?: "@@@",
     placeInChampClass = placeInChampClass,
     attemtps = attemtps.map { it.toUserAttemptState() },
     bestTimeSeconds = bestTimeSeconds,
@@ -52,12 +52,12 @@ private fun StageInfoResponse.UserResult.toUserResultState() = UserResultState(
 )
 
 private fun StageInfoResponse.Attemtp.toUserAttemptState() = UserResultState.AttemtpState(
-    timeSeconds = timeSeconds,
-    time = time,
-    fine = fine,
-    resultTimeSeconds = resultTimeSeconds,
-    resultTime = resultTime,
-    attempt = attempt,
-    isFail = isFail,
+    timeSeconds = timeSeconds ?: 0,
+    time = time?: "@@@",
+    fine = fine?: 0,
+    resultTimeSeconds = resultTimeSeconds?: 0,
+    resultTime = resultTime?: "@@@",
+    attempt = attempt?: 0,
+    isFail = isFail?: false,
     video = video,
 )

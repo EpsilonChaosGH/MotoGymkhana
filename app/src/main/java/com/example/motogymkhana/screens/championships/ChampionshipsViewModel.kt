@@ -1,16 +1,14 @@
-package com.example.motogymkhana.screens.menu
+package com.example.motogymkhana.screens.championships
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.motogymkhana.R
 import com.example.motogymkhana.utils.WhileUiSubscribed
-import com.example.motogymkhana.data.FavoritesRepository
 import com.example.motogymkhana.data.GymkhanaCupRepository
-import com.example.motogymkhana.mappers.toStageState
+import com.example.motogymkhana.mappers.toChampionshipsState
+import com.example.motogymkhana.model.ChampionshipState
 import com.example.motogymkhana.utils.SideEffect
-import com.example.motogymkhana.model.StageState
-import com.example.motogymkhana.screens.stages.StagesScreenState
 import com.example.motogymkhana.model.Type
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -23,22 +21,21 @@ import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
-class MenuViewModel @Inject constructor(
-    private val favoritesRepository: FavoritesRepository,
+class ChampionshipsViewModel @Inject constructor(
     private val gymkhanaCupRepository: GymkhanaCupRepository
 ) : ViewModel() {
 
-    private val _stages = MutableStateFlow(listOf<StageState>())
+    private val _stages = MutableStateFlow(listOf<ChampionshipState>())
     private val _userMessage = MutableStateFlow<SideEffect<Int?>>(SideEffect(null))
     private val _isLoading = MutableStateFlow(false)
 
-    val uiState: StateFlow<StagesScreenState?> = combine(
+    val uiState: StateFlow<ChampionshipsScreenState?> = combine(
         _stages,
         _userMessage,
         _isLoading,
-    ) { stages, userMessage, isLoading->
-        StagesScreenState(
-            stages = stages,
+    ) { championships, userMessage, isLoading ->
+        ChampionshipsScreenState(
+            championships = championships,
             userMessage = userMessage,
             isLoading = isLoading
         )
@@ -49,7 +46,7 @@ class MenuViewModel @Inject constructor(
     )
 
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
-        Log.e("aaa-MenuViewModel",exception.message.toString())
+        Log.e("aaa", exception.message.toString())
         exception.stackTrace
         val result = when (exception) {
             is IOException -> R.string.error
@@ -60,26 +57,17 @@ class MenuViewModel @Inject constructor(
     }
 
     init {
-        loadStages()
+        loadChampionships()
     }
 
-    private fun loadStages() {
-
+    private fun loadChampionships() {
         viewModelScope.launch(exceptionHandler) {
-            favoritesRepository.getFavoritesFlow().collect{favorites ->
-                setLoading(true)
-                _stages.value = gymkhanaCupRepository.getFavoriteStagesList(
-                    type = Type.Offline.value,
-                    idList = favorites
-                ).sortedBy { it.dateOfThe }.map { it.toStageState(favorites) }
-                setLoading(false)
-            }
-        }
-    }
-
-    fun deleteFromFavoritesByStageId(id: Long) {
-        viewModelScope.launch(exceptionHandler) {
-            favoritesRepository.deleteFromFavoritesByStageId(id)
+            setLoading(true)
+            _stages.value =
+                gymkhanaCupRepository.getChampionshipsList(Type.Offline.value, "2023", "2023")
+                    .sortedBy { it.id }
+                    .map { it.toChampionshipsState() }
+            setLoading(false)
         }
     }
 

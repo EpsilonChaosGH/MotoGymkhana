@@ -4,9 +4,10 @@
     <color name="black">#FF000000</color>
     <color name="green">#00e600</color>
     <color name="red">#e60000</color>
+    <color name="white">#ffffff</color>
 
-    <color name="primary">#921a48</color>
-    <color name="background">#b6215a</color>
-    <color name="onBackground">#FFFFFF</color>
+    <color name="primary">#293251</color>
+    <color name="background">#384266</color>
+    <color name="onBackground">#85b9e8</color>
 
 </resources>

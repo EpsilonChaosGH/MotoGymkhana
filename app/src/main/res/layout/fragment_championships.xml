@@ -7,18 +7,17 @@
     android:background="@color/background">
 
     <TextView
-        android:id="@+id/stageTextView"
+        android:id="@+id/championshipsTextView"
         style="@style/TitleTextView"
         android:layout_width="0dp"
         android:layout_margin="@dimen/medium_space"
         android:background="@drawable/layout_bg"
         android:padding="@dimen/low_space"
+        android:text="@string/championships_title"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/stages_title" />
-
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -28,7 +27,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stageTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/championshipsTextView" />
 
     <ProgressBar
         android:id="@+id/progressBar"

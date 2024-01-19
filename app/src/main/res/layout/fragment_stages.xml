@@ -3,27 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/background"
-    android:layout_height="match_parent">
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/stagesRecyclerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+    android:layout_height="match_parent"
+    android:background="@color/background">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView"
         style="@style/TitleTextView"
-        android:layout_margin="@dimen/low_space"
-        android:text="@string/stages"
+        android:layout_width="0dp"
+        android:layout_margin="@dimen/medium_space"
+        android:background="@drawable/layout_bg"
+        android:padding="@dimen/low_space"
+        android:text="@string/stages_title"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/medium_space"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -31,11 +35,10 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="120dp"
         android:indeterminate="true"
-        android:visibility="gone"
         android:indeterminateTint="@color/onBackground"
         android:indeterminateTintMode="src_atop"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

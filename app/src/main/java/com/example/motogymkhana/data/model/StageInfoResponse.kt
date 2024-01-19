@@ -11,20 +11,20 @@ data class StageInfoResponse(
     @field:Json(name = "champId")
     val champID: Long,
 
-    val classes: List<String>,
+//    val classes: List<String>,
     val champTitle: String,
-    val status: String,
+//    val status: String,
     val title: String,
-    val description: String,
-    val usersCount: Long,
+//    val description: String,
+//    val usersCount: Long,
 
-    @field:Json(name = "class")
-    val stageClass: String?,
-    val trackUrl: String,
-    val city: String,
+//    @field:Json(name = "class")
+//    val stageClass: String?,
+//    val trackUrl: String,
+//    val city: String,
     val dateOfThe: Long,
-    val referenceTimeSeconds: Long,
-    val referenceTime: String,
+//    val referenceTimeSeconds: Long,
+//    val referenceTime: String,
     val results: List<UserResult>
 ) {
 
@@ -40,7 +40,8 @@ data class StageInfoResponse(
         val motorcycle: String,
         val athleteClass: String,
         val placeInAthleteClass: Long? = null,
-      //  val champClass: ChampClass,
+       // val champClass: ChampClass,
+        val champClass: String? = null,
         val placeInChampClass: Long? = null,
         val attemtps: List<Attemtp>,
         val bestTimeSeconds: Long? = null,
@@ -50,13 +51,13 @@ data class StageInfoResponse(
     )
 
     data class Attemtp(
-        val timeSeconds: Long,
-        val time: String,
-        val fine: Long,
-        val resultTimeSeconds: Long,
-        val resultTime: String,
-        val attempt: Long,
-        val isFail: Boolean,
+        val timeSeconds: Long? = null,
+        val time: String? = null,
+        val fine: Long? = null,
+        val resultTimeSeconds: Long? = null,
+        val resultTime: String? = null,
+        val attempt: Long? = null,
+        val isFail: Boolean? = null,
         val video: Any? = null
     )
 

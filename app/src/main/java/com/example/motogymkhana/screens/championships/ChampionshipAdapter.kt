@@ -1,4 +1,4 @@
-package com.example.motogymkhana.screens.stages
+package com.example.motogymkhana.screens.championships
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,22 +6,20 @@ import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.motogymkhana.R
+import com.example.motogymkhana.databinding.ItemChampionshipBinding
 import com.example.motogymkhana.databinding.ItemStageBinding
+import com.example.motogymkhana.model.ChampionshipState
 import com.example.motogymkhana.model.StageState
 import kotlinx.coroutines.launch
 
-interface StageListener {
+interface ChampionshipsListener {
 
-    fun showStageDetails(id: Long)
-
-    fun addStageIdToFavorites(id: Long)
-    fun deleteFromFavoritesByStageId(id: Long)
-
+    fun showStagesList(championship: ChampionshipState)
 }
 
 class StageDiffCallback(
-    private val oldList: List<StageState>,
-    private val newList: List<StageState>
+    private val oldList: List<ChampionshipState>,
+    private val newList: List<ChampionshipState>
 ) : DiffUtil.Callback() {
     override fun getOldListSize(): Int = oldList.size
 
@@ -30,7 +28,7 @@ class StageDiffCallback(
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         val oldList = oldList[oldItemPosition]
         val newList = newList[newItemPosition]
-        return oldList.stageID == newList.stageID
+        return oldList.id == newList.id
     }
 
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
@@ -40,36 +38,22 @@ class StageDiffCallback(
     }
 }
 
-class StageAdapter(
-    private val stageListener: StageListener
-) : RecyclerView.Adapter<StageAdapter.ViewHolder>() {
+class ChampionshipAdapter(
+    private val listener: ChampionshipsListener
+) : RecyclerView.Adapter<ChampionshipAdapter.ViewHolder>() {
     class ViewHolder(
-        private val binding: ItemStageBinding
+        private val binding: ItemChampionshipBinding
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun onBind(item: StageState, listener: StageListener) = with(binding) {
+        fun onBind(item: ChampionshipState, listener: ChampionshipsListener) = with(binding) {
 
-            if (item.isFavorites){
-                favoriteImageView.setImageResource(R.drawable.ic_favorite)
-            } else {
-                favoriteImageView.setImageResource(R.drawable.ic_favorite_false)
-            }
+            itemView.setOnClickListener { listener.showStagesList(item) }
 
-            favoriteImageView.setOnClickListener {
-                if (item.isFavorites){
-                    listener.deleteFromFavoritesByStageId(item.stageID)
-                } else {
-                    listener.addStageIdToFavorites(item.stageID)
-                }
-            }
-
-            itemView.setOnClickListener { listener.showStageDetails(item.stageID) }
-
-            dataTextView.text = item.dateOfThe
+            dataTextView.text = item.year.toString()
             titleTextView.text = item.title
         }
     }
 
-    var items = listOf<StageState>()
+    var items = listOf<ChampionshipState>()
         set(newValue) {
             val diffCallback = StageDiffCallback(field, newValue)
             val diffResult = DiffUtil.calculateDiff(diffCallback)
@@ -79,12 +63,12 @@ class StageAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
-            ItemStageBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            ItemChampionshipBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.onBind(items[position], stageListener)
+        holder.onBind(items[position], listener)
     }
 
     override fun getItemCount(): Int = items.size

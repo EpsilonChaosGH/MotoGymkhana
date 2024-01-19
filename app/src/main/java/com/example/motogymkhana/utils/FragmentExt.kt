@@ -1,4 +1,4 @@
-package com.example.motogymkhana.model
+package com.example.motogymkhana.utils
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle

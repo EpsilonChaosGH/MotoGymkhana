@@ -12,11 +12,11 @@
         tools:layout="@layout/fragment_menu"
         android:label="MenuFragment" >
         <action
-            android:id="@+id/action_menuFragment_to_stagesFragment"
-            app:destination="@id/stagesFragment" />
-        <action
             android:id="@+id/action_menuFragment_to_stageDetailsFragment"
             app:destination="@id/stageDetailsFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_championshipsFragment"
+            app:destination="@id/championshipsFragment" />
     </fragment>
     <fragment
         android:id="@+id/stagesFragment"
@@ -32,4 +32,13 @@
         tools:layout="@layout/fragment_stage_details"
         android:name="com.example.motogymkhana.screens.stagedetails.StageDetailsFragment"
         android:label="StageDetailsFragment" />
+    <fragment
+        android:id="@+id/championshipsFragment"
+        tools:layout="@layout/fragment_championships"
+        android:name="com.example.motogymkhana.screens.championships.ChampionshipsFragment"
+        android:label="ChampionshipsFragment" >
+        <action
+            android:id="@+id/action_championshipsFragment_to_stagesFragment"
+            app:destination="@id/stagesFragment" />
+    </fragment>
 </navigation>

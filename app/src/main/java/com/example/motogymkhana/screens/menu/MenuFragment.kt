@@ -14,11 +14,9 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.motogymkhana.Const
 import com.example.motogymkhana.R
 import com.example.motogymkhana.databinding.FragmentMenuBinding
-import com.example.motogymkhana.databinding.FragmentStagesBinding
-import com.example.motogymkhana.model.collectFlow
+import com.example.motogymkhana.utils.collectFlow
 import com.example.motogymkhana.screens.stages.StageAdapter
 import com.example.motogymkhana.screens.stages.StageListener
-import com.example.motogymkhana.screens.stages.StagesViewModel
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -37,12 +35,10 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
 
     private val adapter = StageAdapter(object : StageListener {
         override fun showStageDetails(id: Long) {
-
             findNavController().navigate(
                 R.id.action_menuFragment_to_stageDetailsFragment,
                 bundleOf(Const.STAGE_ID_KEY to id)
             )
-
         }
 
         override fun addStageIdToFavorites(id: Long) {}
@@ -50,8 +46,6 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
         override fun deleteFromFavoritesByStageId(id: Long) {
             viewModel.deleteFromFavoritesByStageId(id)
         }
-
-
     })
 
 
@@ -91,7 +85,7 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
 //            saveData()
 //        }
 
-        openStageButton.setOnClickListener {
+        openChampionshipsButton.setOnClickListener {
             openChampionships()
         }
     }
@@ -103,6 +97,7 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
             progressBar.isVisible = state.isLoading
 
             recyclerView.isInvisible = state.stages.isEmpty()
+            favoritesTextView.isInvisible = state.stages.isEmpty()
 
             state.userMessage.get()?.let {
                 Toast.makeText(requireContext(), getString(it), Toast.LENGTH_SHORT).show()
@@ -118,7 +113,7 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
     }
 
     private fun openChampionships(){
-        findNavController().navigate(R.id.action_menuFragment_to_stagesFragment)
+        findNavController().navigate(R.id.action_menuFragment_to_championshipsFragment)
     }
 
 }

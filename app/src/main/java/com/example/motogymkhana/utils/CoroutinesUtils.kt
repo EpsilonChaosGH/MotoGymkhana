@@ -1,4 +1,4 @@
-package com.example.motogymkhana
+package com.example.motogymkhana.utils
 
 import kotlinx.coroutines.flow.SharingStarted
 

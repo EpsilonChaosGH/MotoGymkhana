@@ -1,5 +1,6 @@
 package com.example.motogymkhana.screens.stagedetails
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -37,10 +38,19 @@ class UserAdapter(
     class ViewHolder(
         private val binding: ItemUserBinding
     ) : RecyclerView.ViewHolder(binding.root) {
+
         fun onBind(item: UserResultState, listener: UserListener) = with(binding) {
 
             userTextView.text = item.userFullName
-            timeTextView.text = item.bestTime
+            userDetailsTextView.text = "${item.champClass} ${item.userCity}"
+
+            groupTextView.text = item.champClass
+
+            usersNumberTextView.text = "48"
+
+            time1TextView.text = item.bestTime
+            time2TextView.text = item.bestTime
+            time3TextView.text = item.bestTime
         }
     }
 

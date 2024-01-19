@@ -4,14 +4,12 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.motogymkhana.R
-import com.example.motogymkhana.WhileUiSubscribed
+import com.example.motogymkhana.utils.WhileUiSubscribed
 import com.example.motogymkhana.data.FavoritesRepository
 import com.example.motogymkhana.data.GymkhanaCupRepository
 import com.example.motogymkhana.mappers.toStageState
-import com.example.motogymkhana.model.SideEffect
+import com.example.motogymkhana.utils.SideEffect
 import com.example.motogymkhana.model.StageState
-import com.example.motogymkhana.model.StagesScreenState
-import com.example.motogymkhana.model.Type
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -50,7 +48,7 @@ class StagesViewModel @Inject constructor(
     )
 
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
-        Log.e("aaa", exception.message.toString())
+        Log.e("aaa1", exception.message.toString())
         exception.stackTrace
         val result = when (exception) {
             is IOException -> R.string.error
@@ -60,29 +58,30 @@ class StagesViewModel @Inject constructor(
         setLoading(false)
     }
 
-    init {
-        loadStages()
+    fun loadStages(championshipId: Long, type: String) {
+        viewModelScope.launch(exceptionHandler) {
+            setLoading(true)
+            _stages.value =
+                gymkhanaCupRepository.getStagesList(championshipId = championshipId, type = type)
+                    .sortedBy { it.dateOfThe }
+                    .map { it.toStageState(favoritesRepository.getFavoritesFlow().first()) }
+            setLoading(false)
+        }
     }
 
     fun addStageIdToFavorites(id: Long) {
         viewModelScope.launch(exceptionHandler) {
             favoritesRepository.addStageIdToFavorites(id)
+            _stages.value =
+                _stages.value.map { if (it.stageID == id) it.copy(isFavorites = true) else it.copy() }
         }
     }
 
     fun deleteFromFavoritesByStageId(id: Long) {
         viewModelScope.launch(exceptionHandler) {
             favoritesRepository.deleteFromFavoritesByStageId(id)
-        }
-    }
-
-    private fun loadStages() {
-        viewModelScope.launch(exceptionHandler) {
-            setLoading(true)
             _stages.value =
-                gymkhanaCupRepository.getStagesList(Type.Offline.value).sortedBy { it.dateOfThe }
-                    .map { it.toStageState(favoritesRepository.getFavoritesFlow().first()) }
-            setLoading(false)
+                _stages.value.map { if (it.stageID == id) it.copy(isFavorites = false) else it.copy() }
         }
     }
 

@@ -1,7 +1,7 @@
 package com.example.motogymkhana.data.network
 
 import com.example.motogymkhana.Const
-import com.example.motogymkhana.data.model.ChampionshipIdResponse
+import com.example.motogymkhana.data.model.ChampionshipResponse
 import com.example.motogymkhana.data.model.ChampionshipInfoResponse
 import com.example.motogymkhana.data.model.StageInfoResponse
 import com.example.motogymkhana.data.model.StageResponse
@@ -13,12 +13,12 @@ import retrofit2.http.Query
 interface GymkhanaService {
 
     @GET("championships/list?")
-    suspend fun getChampionshipsIdList(
+    suspend fun getChampionshipsList(
         @Query("signature") signature: String = Const.APP_ID,
         @Query("type") type: String = Type.Offline.value,
         @Query("fromYear") fromYear: String = Const.fromYear,
         @Query("toYear") toYear: String = Const.toYear,
-    ): Response<List<ChampionshipIdResponse>>
+    ): Response<List<ChampionshipResponse>>
 
     @GET("championships/get?")
     suspend fun getChampionshipInfo(
