@@ -1,12 +1,14 @@
 package com.example.motogymkhana.screens.stagedetails
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.motogymkhana.databinding.ItemUserBinding
 import com.example.motogymkhana.model.UserResultState
+import com.example.motogymkhana.model.UserStatus
 
 interface UserListener {
 }
@@ -40,6 +42,16 @@ class UserAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun onBind(item: UserResultState, listener: UserListener) = with(binding) {
+
+            when (item.userStatus) {
+                UserStatus.RIDES -> usersNumberTextView.setBackgroundResource(item.userStatus.colorResId)
+                UserStatus.NEXT -> usersNumberTextView.setBackgroundResource(item.userStatus.colorResId)
+                UserStatus.HEATING -> usersNumberTextView.setBackgroundResource(item.userStatus.colorResId)
+                UserStatus.WAITING -> {
+                    usersNumberTextView.setTextColor(Color.BLACK)
+                    usersNumberTextView.setBackgroundResource(item.userStatus.colorResId)
+                }
+            }
 
             userTextView.text = item.userFullName
             userDetailsTextView.text = "${item.champClass} ${item.userCity}"

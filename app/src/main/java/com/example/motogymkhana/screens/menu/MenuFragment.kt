@@ -17,19 +17,12 @@ import com.example.motogymkhana.databinding.FragmentMenuBinding
 import com.example.motogymkhana.utils.collectFlow
 import com.example.motogymkhana.screens.stages.StageAdapter
 import com.example.motogymkhana.screens.stages.StageListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.random.Random
 
 @AndroidEntryPoint
 class MenuFragment : Fragment(R.layout.fragment_menu) {
 
     private val binding by viewBinding(FragmentMenuBinding::class.java)
-    private val myRef = Firebase.database.getReference(Const.TEST_DB_KEY)
 
     private val viewModel by viewModels<MenuViewModel>()
 
@@ -48,46 +41,21 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
         }
     })
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
         super.onViewCreated(view, savedInstanceState)
-
 
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        observeStagesState()
-
-        val listener = object : ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-                var str = ""
-                val size = snapshot.children.toList().size
-                snapshot.children.forEach {
-
-                    val x = it.getValue(Test::class.java)
-                    str = "$str + ${x?.testString}"
-                }
-               // Toast.makeText(requireContext(), "onDataChange $size", Toast.LENGTH_SHORT).show()
-
-                //binding.textView.text = str
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(requireContext(), "onCancelled!!", Toast.LENGTH_SHORT).show()
-
-            }
-
-        }
-
-        myRef.addValueEventListener(listener)
-
-//        saveButton.setOnClickListener {
-//            saveData()
-//        }
-
         openChampionshipsButton.setOnClickListener {
             openChampionships()
         }
+
+        openTestButton.setOnClickListener {
+            openTest()
+        }
+
+        observeStagesState()
     }
 
     private fun observeStagesState() = with(binding) {
@@ -105,20 +73,11 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
         }
     }
 
-    private fun saveData(){
-
-//        myRef.push().setValue(Test(testString = binding.textView.text.toString()))
-        myRef.push().updateChildren(mapOf("111" to Test(Random.nextInt(1000), "1-1")))
-//        myRef.push().setValue(Test(testString = "TEXT"))
-    }
-
     private fun openChampionships(){
         findNavController().navigate(R.id.action_menuFragment_to_championshipsFragment)
     }
 
+    private fun openTest(){
+        findNavController().navigate(R.id.action_menuFragment_to_fragmentTest)
+    }
 }
-
-data class Test(
-    val testInt: Int = 12,
-    val testString: String = "str"
-)

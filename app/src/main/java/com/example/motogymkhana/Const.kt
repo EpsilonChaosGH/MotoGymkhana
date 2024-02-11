@@ -8,4 +8,5 @@ object Const {
     const val CHAMPIONSHIPS_ID_KEY = "CHAMPIONSHIPS_ID_KEY"
     const val toYear = "2022"
     const val fromYear = "2023"
+    const val controllerIp = "192.168.4.1"
 }

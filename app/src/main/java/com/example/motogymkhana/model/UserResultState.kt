@@ -2,6 +2,8 @@ package com.example.motogymkhana.model
 
 
 data class UserResultState(
+    val userStatus: UserStatus = UserStatus.WAITING,
+
     val userID: Long,
     val userFullName: String,
     val userLastName: String,

@@ -3,12 +3,14 @@ package com.example.motogymkhana.mappers
 import com.example.motogymkhana.utils.FORMAT_dd_MM_yyyy
 import com.example.motogymkhana.data.model.StageInfoResponse
 import com.example.motogymkhana.data.model.StageResponse
+import com.example.motogymkhana.model.FirebaseStatus
 import com.example.motogymkhana.utils.format
 import com.example.motogymkhana.model.StageInfoState
 import com.example.motogymkhana.model.StageState
 import com.example.motogymkhana.model.UserResultState
+import com.example.motogymkhana.model.UserStatus
 
-fun StageInfoResponse.toStageInfoState() = StageInfoState(
+fun StageInfoResponse.toStageInfoState(firebaseStatusList: List<FirebaseStatus>) = StageInfoState(
     stageID = stageId,
     champID = champID,
 //    classes = classes,
@@ -23,7 +25,13 @@ fun StageInfoResponse.toStageInfoState() = StageInfoState(
     dateOfThe = dateOfThe,
 //    referenceTimeSeconds = referenceTimeSeconds,
 //    referenceTime = referenceTime,
-    results = results.map { it.toUserResultState() }
+    results = results.map { result ->
+        var status = UserStatus.WAITING
+        firebaseStatusList.forEach {
+            if (it.userId == result.userID) status = it.userStatus
+        }
+        result.toUserResultState(status)
+    }
 )
 
 fun StageResponse.toStageState(favoritesList: List<Long>) = StageState(
@@ -33,7 +41,8 @@ fun StageResponse.toStageState(favoritesList: List<Long>) = StageState(
     isFavorites = favoritesList.contains(stageId)
 )
 
-private fun StageInfoResponse.UserResult.toUserResultState() = UserResultState(
+private fun StageInfoResponse.UserResult.toUserResultState(userStatus: UserStatus) = UserResultState(
+    userStatus = userStatus,
     userID = userID,
     userFullName = userFullName,
     userLastName = userLastName,

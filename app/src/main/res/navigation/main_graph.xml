@@ -17,6 +17,9 @@
         <action
             android:id="@+id/action_menuFragment_to_championshipsFragment"
             app:destination="@id/championshipsFragment" />
+        <action
+            android:id="@+id/action_menuFragment_to_fragmentTest"
+            app:destination="@id/fragmentTest" />
     </fragment>
     <fragment
         android:id="@+id/stagesFragment"
@@ -41,4 +44,9 @@
             android:id="@+id/action_championshipsFragment_to_stagesFragment"
             app:destination="@id/stagesFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/fragmentTest"
+        tools:layout="@layout/fragment_test"
+        android:name="com.example.motogymkhana.screens.menu.FragmentTest"
+        android:label="FragmentTest" />
 </navigation>
