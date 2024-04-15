@@ -29,6 +29,9 @@ data class StageInfoResponse(
 ) {
 
     data class UserResult(
+        @field:Json(name = "participantId")
+        val participantID: Long,
+
         @field:Json(name = "userId")
         val userID: Long,
 
@@ -43,21 +46,23 @@ data class StageInfoResponse(
        // val champClass: ChampClass,
         val champClass: String? = null,
         val placeInChampClass: Long? = null,
-        val attemtps: List<Attemtp>,
+
+        @field:Json(name = "attemtps")
+        val attempts: List<Attempt>,
         val bestTimeSeconds: Long? = null,
         val bestTime: String? = null,
         val percent: Double? = null,
         val newClass: String? = null
     )
 
-    data class Attemtp(
+    data class Attempt(
         val timeSeconds: Long? = null,
         val time: String? = null,
         val fine: Long? = null,
         val resultTimeSeconds: Long? = null,
         val resultTime: String? = null,
         val attempt: Long? = null,
-        val isFail: Boolean? = null,
+        val isFail: Boolean = false,
         val video: Any? = null
     )
 
@@ -91,3 +96,53 @@ data class StageInfoResponse(
         }
     }
 }
+
+
+//{
+//    "id": 36,
+//    "title": "Кубок ФМД 2020",
+//    "year": 2020,
+//    "description": "",
+//    "stages": [
+//    {
+//        "id": 51,
+//        "status": "Открыта регистрация на этап",
+//        "title": "тест",
+//        "description": "",
+//        "usersCount": 1,
+//        "class": "N",
+//        "trackUrl": null,
+//        "city": "Обнинск",
+//        "dateOfThe": 1595473200,
+//        "referenceTimeSeconds": 3599990,
+//        "referenceTime": "59:59.99",
+//        "bestTimeSeconds": 3599990,
+//        "bestTime": "59:59.99",
+//        "bestUserId": 377,
+//        "bestUserFirstName": "DEMO",
+//        "bestUserLastname": "DEMO",
+//        "bestUserFullName": "DEMO DEMO",
+//        "bestUserCity": "Челябинск"
+//    },
+//    {
+//        "id": 52,
+//        "status": "Открыта регистрация на этап",
+//        "title": "Тест2",
+//        "description": "",
+//        "usersCount": 18,
+//        "class": "D1",
+//        "trackUrl": null,
+//        "city": "Обнинск",
+//        "dateOfThe": null,
+//        "referenceTimeSeconds": null,
+//        "referenceTime": null,
+//        "bestTimeSeconds": null,
+//        "bestTime": null,
+//        "bestUserId": null,
+//        "bestUserFirstName": null,
+//        "bestUserLastname": null,
+//        "bestUserFullName": null,
+//        "bestUserCity": null
+//    }
+//    ]
+//}

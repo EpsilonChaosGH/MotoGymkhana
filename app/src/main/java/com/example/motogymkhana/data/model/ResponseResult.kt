@@ -12,3 +12,13 @@ fun<T> Response<T>.getResult(): T{
         throw Exception()
     }
 }
+
+fun okhttp3.Response.getResult(): String{
+    if (this.isSuccessful){
+        this.body?.let {
+            return it.string()
+        } ?: throw NotFoundException()
+    } else{
+        throw Exception()
+    }
+}

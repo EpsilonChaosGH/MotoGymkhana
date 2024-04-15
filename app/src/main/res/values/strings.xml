@@ -16,5 +16,10 @@
 
 
     <string name="favorites_list_is_empty">favorites list is empty</string>
+    <string name="save">SAVE</string>
+    <string name="second_attempt">Second attempt</string>
+    <string name="is_fail">Is fail</string>
+    <string name="first_attempt">First attempt</string>
+    <string name="time">TIME</string>
 
 </resources>

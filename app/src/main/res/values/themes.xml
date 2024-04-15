@@ -6,6 +6,23 @@
 
     <style name="Theme.MotoGymkhana" parent="Base.Theme.MotoGymkhana" />
 
+    <style name="LoginTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="boxStrokeColor">#fff</item>
+        <item name="boxStrokeWidth">2dp</item>
+    </style>
+
+    <style name="MySwitch" parent="Theme.AppCompat.Light">
+        <!-- активное состояние (30% прозрачности для фона) -->
+        <item name="colorControlActivated">@color/onBackground</item>
+
+        <!-- неактивное состояние ползунка -->
+        <item name="colorSwitchThumbNormal">@color/background</item>
+
+        <!-- цвет дорожки для неактивного состояния (30% прозрачности) -->
+        <item name="android:colorForeground">@android:color/darker_gray</item>
+    </style>
+
+
 
     <style name="ButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:layout_width">0dp</item>

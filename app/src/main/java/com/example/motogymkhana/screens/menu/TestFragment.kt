@@ -14,11 +14,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.motogymkhana.Const
 import com.example.motogymkhana.R
+import com.example.motogymkhana.data.model.ChampionshipResponse
+import com.example.motogymkhana.data.model.getResult
 import com.example.motogymkhana.databinding.FragmentMenuBinding
 import com.example.motogymkhana.databinding.FragmentTestBinding
+import com.example.motogymkhana.model.Type
 import com.example.motogymkhana.utils.collectFlow
 import com.example.motogymkhana.screens.stages.StageAdapter
 import com.example.motogymkhana.screens.stages.StageListener
+import com.example.motogymkhana.utils.millisecondToMinutes
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -26,46 +30,109 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.create
+import retrofit2.http.GET
+import retrofit2.http.Query
 import java.io.IOException
 import kotlin.random.Random
+
+
 
 @AndroidEntryPoint
 class FragmentTest : Fragment(R.layout.fragment_test) {
 
+    private var autoRefresh = false
+
     private val binding by viewBinding(FragmentTestBinding::class.java)
     private lateinit var request: Request
-    private val client = OkHttpClient()
+    private val client = OkHttpClient.Builder()
+        .addInterceptor(HttpLoggingInterceptor().also {
+            it.level = HttpLoggingInterceptor.Level.BODY
+        })
+        .build()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.postRequestButton.isEnabled = false
+        binding.postRequestButton.isVisible = false
+//        val retrofit = Retrofit.Builder()
+//            .baseUrl("http://192.168.4.1/")
+//            .client(
+//                OkHttpClient.Builder()
+//                    .addInterceptor(HttpLoggingInterceptor().also {
+//                        it.level = HttpLoggingInterceptor.Level.BODY
+//                    })
+//                    .build()
+//            )
+//            .addConverterFactory(MoshiConverterFactory.create())
+//            .build()
+
+//        val testService = retrofit.create(TestService::class.java)
+//
+//        binding.retrofitRequestButton.setOnClickListener {
+//            viewLifecycleOwner.lifecycleScope.launch {
+//                try {
+//                    binding.retrofitTextView.text =
+//                        testService.getTest().getResult().temperatureC.millisecondToMinutes()
+//                } catch (e: Exception) {
+//                    binding.retrofitTextView.text = e.message.toString()
+//                }
+//            }
+//        }
+
+
+
         binding.ipEditTextText.setText(Const.controllerIp)
 
-//        min1 min2  sek2  sek1  mils1 mils2
-
         postRequestButton.setOnClickListener {
-            if (binding.postRequestButton.text.isNotEmpty()) {
-                post(binding.postRequestButton.text.toString())
+            if (binding.postEditTextText.text.isNotEmpty()) {
+                if (autoRefresh) {
+                    autoRefresh()
+                } else {
+                    post(binding.postEditTextText.text.toString())
+                }
             }
         }
 
+        binding.switchBt.setOnCheckedChangeListener { buttonView, isChecked ->
+            autoRefresh = isChecked
+            if (isChecked) {
+                autoRefresh()
+            }
+        }
+    }
+
+    private fun autoRefresh() {
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
+            while (autoRefresh) {
+                post(binding.postEditTextText.text.toString())
+                delay(1000)
+            }
+        }
     }
 
     private fun post(post: String) {
-        lifecycleScope.launch(Dispatchers.IO) {
-
-            request = Request.Builder().url("http://${binding.ipEditTextText.text}/$post").build()
-
+//        requireActivity().runOnUiThread {
+//            binding.textView.text = Random.nextInt(10000).toString()
+//        }
+        viewLifecycleOwner.lifecycleScope.launch(Dispatchers.IO) {
             try {
-                var response = client.newCall(request).execute()
-                if (response.isSuccessful) {
-                   requireActivity().runOnUiThread{
-                       binding.responseTextView.text = response.body()?.string()
-                   }
+                request = Request.Builder().url("http://${binding.ipEditTextText.text}/$post").build()
+                val response = client.newCall(request).execute()
+                val time = response.getResult().toDouble().millisecondToMinutes()
+                requireActivity().runOnUiThread {
+                    binding.responseTextView.text = time
                 }
+
             } catch (e: IOException) {
                 requireActivity().runOnUiThread {
                     binding.responseTextView.text = e.message
@@ -74,4 +141,3 @@ class FragmentTest : Fragment(R.layout.fragment_test) {
         }
     }
 }
-

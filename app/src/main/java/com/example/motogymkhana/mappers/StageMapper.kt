@@ -28,7 +28,7 @@ fun StageInfoResponse.toStageInfoState(firebaseStatusList: List<FirebaseStatus>)
     results = results.map { result ->
         var status = UserStatus.WAITING
         firebaseStatusList.forEach {
-            if (it.userId == result.userID) status = it.userStatus
+            if (it.participantID == result.participantID) status = it.userStatus
         }
         result.toUserResultState(status)
     }
@@ -41,32 +41,33 @@ fun StageResponse.toStageState(favoritesList: List<Long>) = StageState(
     isFavorites = favoritesList.contains(stageId)
 )
 
-private fun StageInfoResponse.UserResult.toUserResultState(userStatus: UserStatus) = UserResultState(
-    userStatus = userStatus,
-    userID = userID,
-    userFullName = userFullName,
-    userLastName = userLastName,
-    userFirstName = userFirstName,
-    userCity = userCity,
-    motorcycle = motorcycle,
-    athleteClass = athleteClass,
-    placeInAthleteClass = placeInAthleteClass,
-    champClass = champClass ?: "@@@",
-    placeInChampClass = placeInChampClass,
-    attemtps = attemtps.map { it.toUserAttemptState() },
-    bestTimeSeconds = bestTimeSeconds,
-    bestTime = bestTime,
-    percent = percent,
-    newClass = newClass,
-)
+private fun StageInfoResponse.UserResult.toUserResultState(userStatus: UserStatus) =
+    UserResultState(
+        participantID = participantID,
+        userStatus = userStatus,
+        userID = userID,
+        userFullName = userFullName,
+        userLastName = userLastName,
+        userFirstName = userFirstName,
+        userCity = userCity,
+        motorcycle = motorcycle,
+        athleteClass = athleteClass,
+        placeInAthleteClass = placeInAthleteClass,
+        champClass = champClass,
+        placeInChampClass = placeInChampClass,
+        attempts = attempts.map { it.toUserAttemptState() },
+        bestTimeSeconds = bestTimeSeconds,
+        bestTime = bestTime,
+        percent = percent,
+        newClass = newClass,
+    )
 
-private fun StageInfoResponse.Attemtp.toUserAttemptState() = UserResultState.AttemtpState(
-    timeSeconds = timeSeconds ?: 0,
-    time = time?: "@@@",
-    fine = fine?: 0,
-    resultTimeSeconds = resultTimeSeconds?: 0,
-    resultTime = resultTime?: "@@@",
-    attempt = attempt?: 0,
-    isFail = isFail?: false,
-    video = video,
+private fun StageInfoResponse.Attempt.toUserAttemptState() = UserResultState.AttemptState(
+    timeSeconds = timeSeconds,
+    time = time,
+    fine = fine,
+    resultTimeSeconds = resultTimeSeconds,
+    resultTime = resultTime,
+    attempt = attempt,
+    isFail = isFail,
 )

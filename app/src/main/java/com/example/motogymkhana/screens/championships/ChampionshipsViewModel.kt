@@ -64,7 +64,7 @@ class ChampionshipsViewModel @Inject constructor(
         viewModelScope.launch(exceptionHandler) {
             setLoading(true)
             _stages.value =
-                gymkhanaCupRepository.getChampionshipsList(Type.Offline.value, "2023", "2023")
+                gymkhanaCupRepository.getChampionshipsList(Type.Offline.value, "2020", "2024")
                     .sortedBy { it.id }
                     .map { it.toChampionshipsState() }
             setLoading(false)

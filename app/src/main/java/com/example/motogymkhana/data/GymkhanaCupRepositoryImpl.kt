@@ -3,13 +3,19 @@ package com.example.motogymkhana.data
 
 import com.example.motogymkhana.data.model.getResult
 import com.example.motogymkhana.data.model.ChampionshipResponse
+import com.example.motogymkhana.model.PostTimeRequestBody
 import com.example.motogymkhana.data.network.GymkhanaService
 import com.example.motogymkhana.data.model.StageInfoResponse
 import com.example.motogymkhana.data.model.StageResponse
+import com.example.motogymkhana.data.model.TimeResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -59,4 +65,19 @@ class GymkhanaCupRepositoryImpl @Inject constructor(
             }.awaitAll().forEach { stages.add(it) }
             return@withContext stages
         }
+
+    override suspend fun postTime(postTimeRequestBody: PostTimeRequestBody): Response<TimeResponse> {
+        val fields: HashMap<String?, RequestBody?> = HashMap()
+
+        with(postTimeRequestBody) {
+            fields["stageId"] = stageId.toRequestBody("text/plain".toMediaTypeOrNull())
+            fields["participantId"] = participantID.toRequestBody("text/plain".toMediaTypeOrNull())
+            fields["attempt"] = attempt.toRequestBody("text/plain".toMediaTypeOrNull())
+            fields["time"] = time.toRequestBody("text/plain".toMediaTypeOrNull())
+            fields["fine"] = fine.toRequestBody("text/plain".toMediaTypeOrNull())
+            fields["isFail"] = isFail.toRequestBody("text/plain".toMediaTypeOrNull())
+        }
+
+        return gymkhanaService.postTime(map = fields)
+    }
 }

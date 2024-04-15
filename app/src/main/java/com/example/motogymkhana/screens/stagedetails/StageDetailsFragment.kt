@@ -11,6 +11,7 @@ import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.motogymkhana.Const
 import com.example.motogymkhana.R
 import com.example.motogymkhana.databinding.FragmentStageDetailsBinding
+import com.example.motogymkhana.model.PostTimeRequestBody
 import com.example.motogymkhana.model.Type
 import com.example.motogymkhana.utils.collectFlow
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,11 +23,26 @@ class StageDetailsFragment : Fragment(R.layout.fragment_stage_details) {
 
     private val viewModel by viewModels<StageDetailsViewModel>()
 
-    private val adapter = UserAdapter(object : UserListener{})
+    private lateinit var adapter: UserAdapter
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
         super.onViewCreated(view, savedInstanceState)
+
+        adapter = UserAdapter(object : UserListener {
+            override fun openTimeMenu(participantID: Long) {
+                viewModel.openTimeMenu(participantID)
+            }
+
+            override fun saveTime(requestBody: PostTimeRequestBody) {
+                viewModel.postTime(requestBody)
+            }
+
+            override fun getCurrentTime(): String {
+                return binding.currentTimeTextView.text.toString()
+            }
+        })
+
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
@@ -35,6 +51,10 @@ class StageDetailsFragment : Fragment(R.layout.fragment_stage_details) {
         viewModel.getStageInfo(id = stageId.toString(), type = Type.Offline.value)
 
         observeStagesState()
+
+//        binding.currentTimeTextView.setOnClickListener {
+//            viewModel.postTime(PostTimeRequestBody(time = binding.currentTimeTextView.text.toString()))
+//        }
     }
 
     private fun observeStagesState() = with(binding) {
@@ -45,6 +65,7 @@ class StageDetailsFragment : Fragment(R.layout.fragment_stage_details) {
                 adapter.items = it.results
             }
 
+            currentTimeTextView.text = state.currentTime
             progressBar.isVisible = state.isLoading
 
             state.userMessage.get()?.let {

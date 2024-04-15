@@ -4,6 +4,7 @@ package com.example.motogymkhana.model
 data class UserResultState(
     val userStatus: UserStatus = UserStatus.WAITING,
 
+    val participantID: Long,
     val userID: Long,
     val userFullName: String,
     val userLastName: String,
@@ -14,23 +15,25 @@ data class UserResultState(
     val athleteClass: String,
     val placeInAthleteClass: Long? = null,
 //      val champClass: ChampClass,
-    val champClass: String,
+    val champClass: String?,
     val placeInChampClass: Long? = null,
-    val attemtps: List<AttemtpState>,
+    val attempts: List<AttemptState>,
     val bestTimeSeconds: Long? = null,
     val bestTime: String? = null,
     val percent: Double? = null,
-    val newClass: String? = null
+    val newClass: String? = null,
+
+    val currentTime: Long = 0L,
+    val openTimeMenu: Boolean = false
 ) {
 
-    data class AttemtpState(
-        val timeSeconds: Long,
-        val time: String,
-        val fine: Long,
-        val resultTimeSeconds: Long,
-        val resultTime: String,
-        val attempt: Long,
-        val isFail: Boolean,
-        val video: Any? = null
+    data class AttemptState(
+        val timeSeconds: Long? = null,
+        val time: String? = null,
+        val fine: Long? = null,
+        val resultTimeSeconds: Long? = null,
+        val resultTime: String? = null,
+        val attempt: Long? = null,
+        val isFail: Boolean = false,
     )
 }

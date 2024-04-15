@@ -19,16 +19,27 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/stages_title" />
 
+    <TextView
+        android:id="@+id/currentTimeTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="84sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/stageTextView"
+        tools:text="01:00.11" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/medium_space"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/stageTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/currentTimeTextView" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -42,4 +53,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        app:layout_constraintEnd_toEndOf="@+id/currentTimeTextView"
+        app:layout_constraintTop_toTopOf="@+id/currentTimeTextView"
+        app:srcCompat="@drawable/ic_refresh" />
 </androidx.constraintlayout.widget.ConstraintLayout>

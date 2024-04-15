@@ -56,10 +56,12 @@ dependencies {
     implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
+//    implementation("com.android.support:design:28.0.0")
 
     //Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
 
     implementation("com.google.dagger:hilt-android:2.44")
     implementation("com.google.firebase:firebase-database:20.3.0")
