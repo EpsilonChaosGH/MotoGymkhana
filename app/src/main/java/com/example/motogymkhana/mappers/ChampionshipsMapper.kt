@@ -8,6 +8,6 @@ fun ChampionshipResponse.toChampionshipsState() = ChampionshipState(
     title = title,
     year = year,
     description = description,
-    stagesCount = stagesCount,
-    type = type,
+//    stagesCount = stagesCount,
+//    type = type,
 )

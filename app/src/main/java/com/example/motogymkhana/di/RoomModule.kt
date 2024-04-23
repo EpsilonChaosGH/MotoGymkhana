@@ -21,7 +21,7 @@ object RoomModule {
         Room.databaseBuilder(
             context,
             AppDatabase::class.java,
-            "WeatherApp-DB"
+            "App-DB"
         )
             .build()
 

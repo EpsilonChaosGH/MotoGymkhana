@@ -39,19 +39,19 @@
         android:layout_marginBottom="@dimen/medium_space"
         android:background="@color/background"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/openTestButton"
+        app:layout_constraintBottom_toTopOf="@id/openChampionshipsButton"
         app:layout_constraintTop_toBottomOf="@+id/favoritesTextView"
         tools:context=".app.screens.main.favorites.FavoritesFragment" />
 
-    <Button
-        android:id="@+id/openTestButton"
-        style="@style/ButtonStyle"
-        android:layout_margin="@dimen/medium_space"
-        android:text="OPEN TEST CONTROLLER"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/openChampionshipsButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+<!--    <Button-->
+<!--        android:id="@+id/openTestButton"-->
+<!--        style="@style/ButtonStyle"-->
+<!--        android:layout_margin="@dimen/medium_space"-->
+<!--        android:text="OPEN TEST CONTROLLER"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/openChampionshipsButton"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent" />-->
 
     <Button
         android:id="@+id/openChampionshipsButton"

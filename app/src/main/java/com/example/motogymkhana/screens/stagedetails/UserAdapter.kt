@@ -5,24 +5,22 @@ import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import androidx.core.text.set
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.motogymkhana.R
 import com.example.motogymkhana.databinding.ItemUserBinding
-import com.example.motogymkhana.databinding.ItemUserMenuBinding
-import com.example.motogymkhana.model.PostTimeRequestBody
+import com.example.motogymkhana.model.Attempt
+import com.example.motogymkhana.model.IsActive
 import com.example.motogymkhana.model.UserResultState
 import com.example.motogymkhana.model.UserStatus
-import java.lang.IllegalStateException
 
 interface UserListener {
-    fun openTimeMenu(participantID: Long)
+    fun showMenu(user: UserResultState, attempt: Attempt)
 
-    fun saveTime(requestBody: PostTimeRequestBody)
+    fun setActive(isActive: IsActive, participantID: Long)
 
-    fun getCurrentTime(): String
+    fun closeMenu()
 }
 
 class UserDiffCallback(
@@ -47,8 +45,8 @@ class UserDiffCallback(
 }
 
 class UserAdapter(
-    private val stageListener: UserListener
-) : RecyclerView.Adapter<ViewHolder>() {
+    private val userListener: UserListener
+) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
     class UserViewHolder(
         private val binding: ItemUserBinding
     ) : ViewHolder(binding.root) {
@@ -77,10 +75,25 @@ class UserAdapter(
                 }
             }
 
+            when(item.isActive){
+                IsActive.FIRST -> {
+                    firstAttemptTimeTextView.setBackgroundResource(R.drawable.text_bg)
+                    secondAttemptTimeTextView.setBackgroundResource(R.color.primary)
+                }
+                IsActive.SECOND -> {
+                    firstAttemptTimeTextView.setBackgroundResource(R.color.primary)
+                    secondAttemptTimeTextView.setBackgroundResource(R.drawable.text_bg)
+                }
+                IsActive.INACTIVE -> {
+                    firstAttemptTimeTextView.setBackgroundResource(R.color.primary)
+                    secondAttemptTimeTextView.setBackgroundResource(R.color.primary)
+                }
+            }
+
             userNameTextView.text = item.userFullName
             userDetailsTextView.text = "${item.champClass} ${item.userCity}"
             groupTextView.text = item.champClass
-            usersNumberTextView.text = "48"
+            usersNumberTextView.text = item.number
 
             val firstAttempt = item.attempts.getOrNull(0)
             if (firstAttempt != null) {
@@ -117,122 +130,17 @@ class UserAdapter(
             resultTimeTextView.text = item.bestTime
 
             itemView.setOnClickListener {
-                listener.openTimeMenu(item.participantID)
-            }
-        }
-    }
-
-    class UserMenuViewHolder(
-        private val binding: ItemUserMenuBinding
-    ) : ViewHolder(binding.root) {
-
-        fun onBind(item: UserResultState, listener: UserListener) = with(binding) {
-
-            when (item.userStatus) {
-                UserStatus.RIDES -> {
-                    usersNumberTextView.setTextColor(Color.WHITE)
-                    usersNumberTextView.setBackgroundResource(item.userStatus.colorResId)
-                }
-
-                UserStatus.NEXT -> {
-                    usersNumberTextView.setTextColor(Color.WHITE)
-                    usersNumberTextView.setBackgroundResource(item.userStatus.colorResId)
-                }
-
-                UserStatus.HEATING -> {
-                    usersNumberTextView.setTextColor(Color.BLACK)
-                    usersNumberTextView.setBackgroundResource(item.userStatus.colorResId)
-                }
-
-                UserStatus.WAITING -> {
-                    usersNumberTextView.setTextColor(Color.BLACK)
-                    usersNumberTextView.setBackgroundResource(item.userStatus.colorResId)
-                }
+                listener.closeMenu()
             }
 
-            userNameTextView.text = item.userFullName
-            userDetailsTextView.text = "${item.champClass} ${item.userCity}"
-            groupTextView.text = item.champClass
-            usersNumberTextView.text = "48"
-
-            val firstAttempt = item.attempts.getOrNull(0)
-            if (firstAttempt != null) {
-                firstAttemptEditTextTime.setText(
-                    if (!firstAttempt.isFail) {
-                        firstAttemptEditTextTime.paintFlags = Paint.ANTI_ALIAS_FLAG
-                        firstAttempt.resultTime
-                    } else {
-                        firstAttemptEditTextTime.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-                        firstAttempt.resultTime
-                    }
-                )
-            } else {
-                firstAttemptEditTextTime.setText("00:00.00")
-            }
-            firstAttemptEditTextTime.imeOptions = EditorInfo.IME_ACTION_DONE
-
-            val secondAttempt = item.attempts.getOrNull(1)
-            if (secondAttempt != null) {
-                secondAttemptEditTextTime.setText(
-                    if (!secondAttempt.isFail) {
-                        secondAttemptEditTextTime.paintFlags = Paint.ANTI_ALIAS_FLAG
-                        secondAttempt.resultTime
-                    } else {
-                        secondAttemptEditTextTime.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-                        secondAttempt.resultTime
-                    }
-                )
-            } else {
-                secondAttemptEditTextTime.setText("00:00.00")
-            }
-            secondAttemptEditTextTime.imeOptions = EditorInfo.IME_ACTION_DONE
-
-            resultTimeTextView.text = item.bestTime
-
-            itemView.setOnClickListener {
-                listener.openTimeMenu(item.participantID)
+            firstAttemptTimeTextView.setOnClickListener {
+                listener.setActive(IsActive.FIRST, item.participantID)
+                listener.showMenu(user = item, attempt = Attempt.First)
             }
 
-            firstAttemptGetCurrentTimeButton.setOnClickListener {
-                firstAttemptEditTextTime.setText(listener.getCurrentTime())
-            }
-
-            secondAttemptGetCurrentTimeButton.setOnClickListener {
-                secondAttemptEditTextTime.setText(listener.getCurrentTime())
-            }
-
-            firstAttemptSaveButton.setOnClickListener {
-                listener.saveTime(
-                    PostTimeRequestBody(
-                        stageId = "66",
-                        participantID = item.participantID.toString(),
-                        attempt = "1",
-                        time = firstAttemptEditTextTime.text.toString(),
-                        fine = firstAttemptPicker.getValue().toString(),
-                        isFail = if (firstAttemptSwitch.isChecked) {
-                            "1"
-                        } else {
-                            "0"
-                        }
-                    )
-                )
-            }
-
-            secondAttemptSaveButton.setOnClickListener {
-                listener.saveTime(
-                    PostTimeRequestBody(
-                        stageId = "66",
-                        participantID = item.participantID.toString(),
-                        attempt = "2",
-                        time = secondAttemptEditTextTime.text.toString(),
-                        fine = secondAttemptPicker.getValue().toString(),
-                        isFail = if (secondAttemptSwitch.isChecked) {
-                            "1"
-                        } else {
-                            "0"
-                        }
-                    )
-                )
+            secondAttemptTimeTextView.setOnClickListener {
+                listener.setActive(IsActive.SECOND, item.participantID)
+                listener.showMenu(user = item, attempt = Attempt.Second)
             }
         }
     }
@@ -245,40 +153,16 @@ class UserAdapter(
             diffResult.dispatchUpdatesTo(this)
         }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return when (viewType) {
-            R.layout.item_user -> {
-                val binding =
-                    ItemUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                UserViewHolder(binding)
-            }
-
-            R.layout.item_user_menu -> {
-                val binding =
-                    ItemUserMenuBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                UserMenuViewHolder(binding)
-            }
-
-            else -> {
-                throw IllegalStateException("Illegal viewType $viewType")
-            }
-        }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
+        val binding =
+            ItemUserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        UserViewHolder(binding)
+        return UserViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (!items[position].openTimeMenu) {
-            (holder as UserViewHolder).onBind(items[position], stageListener)
-        } else {
-            (holder as UserMenuViewHolder).onBind(items[position], stageListener)
-        }
-    }
+    override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
+        return holder.onBind(items[position], userListener)
 
-    override fun getItemViewType(position: Int): Int {
-        return if (!items[position].openTimeMenu) {
-            R.layout.item_user
-        } else {
-            R.layout.item_user_menu
-        }
     }
 
     override fun getItemCount(): Int = items.size

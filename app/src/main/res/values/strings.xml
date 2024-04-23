@@ -21,5 +21,6 @@
     <string name="is_fail">Is fail</string>
     <string name="first_attempt">First attempt</string>
     <string name="time">TIME</string>
+    <string name="save_settings">SAVE SETTINGS</string>
 
 </resources>

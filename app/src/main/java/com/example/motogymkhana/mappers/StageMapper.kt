@@ -1,16 +1,14 @@
 package com.example.motogymkhana.mappers
 
-import com.example.motogymkhana.utils.FORMAT_dd_MM_yyyy
-import com.example.motogymkhana.data.model.StageInfoResponse
 import com.example.motogymkhana.data.model.StageResponse
 import com.example.motogymkhana.model.FirebaseStatus
-import com.example.motogymkhana.utils.format
-import com.example.motogymkhana.model.StageInfoState
 import com.example.motogymkhana.model.StageState
 import com.example.motogymkhana.model.UserResultState
 import com.example.motogymkhana.model.UserStatus
+import com.example.motogymkhana.utils.FORMAT_dd_MM_yyyy
+import com.example.motogymkhana.utils.format
 
-fun StageInfoResponse.toStageInfoState(firebaseStatusList: List<FirebaseStatus>) = StageInfoState(
+fun StageResponse.toStageState(favoritesList: List<Long>? = null, firebaseStatusList: List<FirebaseStatus>? = null) = StageState(
     stageID = stageId,
     champID = champID,
 //    classes = classes,
@@ -22,26 +20,20 @@ fun StageInfoResponse.toStageInfoState(firebaseStatusList: List<FirebaseStatus>)
 //    stageClass = stageClass,
 //    trackURL = trackUrl,
 //    city = city,
-    dateOfThe = dateOfThe,
+    dateOfThe = dateOfThe.format(FORMAT_dd_MM_yyyy),
 //    referenceTimeSeconds = referenceTimeSeconds,
 //    referenceTime = referenceTime,
     results = results.map { result ->
         var status = UserStatus.WAITING
-        firebaseStatusList.forEach {
-            if (it.participantID == result.participantID) status = it.userStatus
-        }
+//        firebaseStatusList.forEach {
+//            if (it.participantID == result.participantID) status = it.userStatus
+//        }
         result.toUserResultState(status)
-    }
+    }.sortedBy { it.order },
+    isFavorites = favoritesList?.contains(stageId) ?: false
 )
 
-fun StageResponse.toStageState(favoritesList: List<Long>) = StageState(
-    stageID = stageId,
-    title = title,
-    dateOfThe = dateOfThe.format(FORMAT_dd_MM_yyyy),
-    isFavorites = favoritesList.contains(stageId)
-)
-
-private fun StageInfoResponse.UserResult.toUserResultState(userStatus: UserStatus) =
+private fun StageResponse.UserResult.toUserResultState(userStatus: UserStatus) =
     UserResultState(
         participantID = participantID,
         userStatus = userStatus,
@@ -60,9 +52,11 @@ private fun StageInfoResponse.UserResult.toUserResultState(userStatus: UserStatu
         bestTime = bestTime,
         percent = percent,
         newClass = newClass,
+        number = number,
+        order = order
     )
 
-private fun StageInfoResponse.Attempt.toUserAttemptState() = UserResultState.AttemptState(
+private fun StageResponse.Attempt.toUserAttemptState() = UserResultState.AttemptState(
     timeSeconds = timeSeconds,
     time = time,
     fine = fine,

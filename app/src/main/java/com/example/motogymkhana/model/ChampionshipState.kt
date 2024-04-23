@@ -10,6 +10,6 @@ data class ChampionshipState(
     val title: String,
     val year: Long,
     val description: String,
-    val stagesCount: Long,
-    val type: String
+//    val stagesCount: Long,
+//    val type: String
 ): Parcelable

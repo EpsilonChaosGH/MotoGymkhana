@@ -2,8 +2,6 @@ package com.example.motogymkhana.data.network
 
 import com.example.motogymkhana.Const
 import com.example.motogymkhana.data.model.ChampionshipResponse
-import com.example.motogymkhana.data.model.ChampionshipInfoResponse
-import com.example.motogymkhana.data.model.StageInfoResponse
 import com.example.motogymkhana.data.model.StageResponse
 import com.example.motogymkhana.data.model.TimeResponse
 import com.example.motogymkhana.model.Type
@@ -26,11 +24,11 @@ interface GymkhanaService {
     ): Response<List<ChampionshipResponse>>
 
     @GET("championships/get?")
-    suspend fun getChampionshipInfo(
+    suspend fun getChampionship(
         @Query("signature") signature: String = Const.TEST_APP_ID,
         @Query("id") id: String,
         @Query("type") type: String,
-    ): Response<ChampionshipInfoResponse>
+    ): Response<ChampionshipResponse>
 
     @GET("stages/get?")
     suspend fun getStage(
@@ -38,13 +36,6 @@ interface GymkhanaService {
         @Query("id") id: String,
         @Query("type") type: String,
     ): Response<StageResponse>
-
-    @GET("stages/get?")
-    suspend fun getStageInfo(
-        @Query("signature") signature: String = Const.TEST_APP_ID,
-        @Query("id") id: String,
-        @Query("type") type: String,
-    ): Response<StageInfoResponse>
 
     @Multipart
     @POST("stages/add-time?")

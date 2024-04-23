@@ -5,7 +5,6 @@ import com.example.motogymkhana.data.model.getResult
 import com.example.motogymkhana.data.model.ChampionshipResponse
 import com.example.motogymkhana.model.PostTimeRequestBody
 import com.example.motogymkhana.data.network.GymkhanaService
-import com.example.motogymkhana.data.model.StageInfoResponse
 import com.example.motogymkhana.data.model.StageResponse
 import com.example.motogymkhana.data.model.TimeResponse
 import kotlinx.coroutines.Dispatchers
@@ -35,16 +34,16 @@ class GymkhanaCupRepositoryImpl @Inject constructor(
         ).getResult()
     }
 
-    override suspend fun getStageInfo(id: String, type: String): StageInfoResponse =
+    override suspend fun getStage(id: String, type: String): StageResponse =
         withContext(Dispatchers.IO) {
-        return@withContext gymkhanaService.getStageInfo(id = id, type = type).getResult()
+        return@withContext gymkhanaService.getStage(id = id, type = type).getResult()
     }
 
     override suspend fun getStagesList(championshipId: Long, type: String): List<StageResponse> =
         withContext(Dispatchers.IO) {
             val stagesIdList = mutableListOf<Long>()
 
-            gymkhanaService.getChampionshipInfo(id = championshipId.toString(), type = type)
+            gymkhanaService.getChampionship(id = championshipId.toString(), type = type)
                 .getResult().stages.map {
                 stagesIdList.add(it.id)
             }

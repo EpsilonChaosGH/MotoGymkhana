@@ -22,5 +22,4 @@ class FavoritesRepositoryImpl @Inject constructor(
     override suspend fun deleteFromFavoritesByStageId(id: Long) {
         appDatabase.favoritesDao().deleteFromFavorites(id)
     }
-
 }

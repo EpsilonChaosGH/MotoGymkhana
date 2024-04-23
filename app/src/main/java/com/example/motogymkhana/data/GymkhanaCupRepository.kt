@@ -2,7 +2,6 @@ package com.example.motogymkhana.data
 
 import com.example.motogymkhana.data.model.ChampionshipResponse
 import com.example.motogymkhana.model.PostTimeRequestBody
-import com.example.motogymkhana.data.model.StageInfoResponse
 import com.example.motogymkhana.data.model.StageResponse
 import com.example.motogymkhana.data.model.TimeResponse
 import retrofit2.Response
@@ -13,7 +12,7 @@ interface GymkhanaCupRepository {
     suspend fun getChampionshipsList(type: String, fromYear: String, toYear: String): List<ChampionshipResponse>
 
     @Throws
-    suspend fun getStageInfo(id: String, type: String): StageInfoResponse
+    suspend fun getStage(id: String, type: String): StageResponse
 
     @Throws
     suspend fun getStagesList(championshipId: Long, type: String): List<StageResponse>

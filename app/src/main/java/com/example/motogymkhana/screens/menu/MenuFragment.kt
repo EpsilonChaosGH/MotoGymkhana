@@ -51,9 +51,9 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
             openChampionships()
         }
 
-        openTestButton.setOnClickListener {
-            openTest()
-        }
+//        openTestButton.setOnClickListener {
+//            openTest()
+//        }
 
         observeStagesState()
     }

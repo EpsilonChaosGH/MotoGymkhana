@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/background">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/ipInputText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/medium_space"
+        android:hint="IP"
+        android:textColorHint="@color/onBackground"
+        app:boxStrokeColor="@color/white"
+        app:boxStrokeWidth="2dp"
+        app:hintTextColor="@color/onBackground"
+        app:layout_constraintBottom_toTopOf="@+id/requestInputText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/ipEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/onBackground" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/requestInputText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/medium_space"
+        android:hint="REQUEST"
+        android:textColorHint="@color/onBackground"
+        app:boxStrokeColor="@color/white"
+        app:boxStrokeWidth="2dp"
+        app:hintTextColor="@color/onBackground"
+        app:layout_constraintBottom_toTopOf="@+id/saveSettingsButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/requestEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/onBackground" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/saveSettingsButton"
+        style="@style/ButtonStyle"
+        android:layout_margin="@dimen/medium_space"
+        android:text="@string/save_settings"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -34,7 +34,11 @@
         android:id="@+id/stageDetailsFragment"
         tools:layout="@layout/fragment_stage_details"
         android:name="com.example.motogymkhana.screens.stagedetails.StageDetailsFragment"
-        android:label="StageDetailsFragment" />
+        android:label="StageDetailsFragment" >
+        <action
+            android:id="@+id/action_stageDetailsFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/championshipsFragment"
         tools:layout="@layout/fragment_championships"
@@ -49,4 +53,9 @@
         tools:layout="@layout/fragment_test"
         android:name="com.example.motogymkhana.screens.menu.FragmentTest"
         android:label="FragmentTest" />
+    <fragment
+        tools:layout="@layout/fragment_settings"
+        android:id="@+id/settingsFragment"
+        android:name="com.example.motogymkhana.screens.settings.SettingsFragment"
+        android:label="SettingsFragment" />
 </navigation>

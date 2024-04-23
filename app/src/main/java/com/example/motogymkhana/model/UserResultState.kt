@@ -22,9 +22,13 @@ data class UserResultState(
     val bestTime: String? = null,
     val percent: Double? = null,
     val newClass: String? = null,
+    val number: String? = null,
+    val order: String? = null,
 
-    val currentTime: Long = 0L,
-    val openTimeMenu: Boolean = false
+    val isActive: IsActive = IsActive.INACTIVE
+
+//    val currentTime: Long = 0L,
+//    val openTimeMenu: Boolean = false
 ) {
 
     data class AttemptState(
