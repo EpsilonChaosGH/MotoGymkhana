@@ -48,7 +48,7 @@ class StagesViewModel @Inject constructor(
     )
 
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
-        Log.e("aaa1", exception.message.toString())
+        Log.e("aaa_StagesViewModel", exception.message.toString())
         exception.stackTrace
         val result = when (exception) {
             is IOException -> R.string.error
@@ -59,10 +59,10 @@ class StagesViewModel @Inject constructor(
     }
 
     fun loadStages(championshipId: Long, type: String) {
-        viewModelScope.launch(exceptionHandler) {
+        viewModelScope.launch() {
             setLoading(true)
             _stages.value =
-                gymkhanaCupRepository.getStagesList(championshipId = championshipId, type = type)
+                gymkhanaCupRepository.getStagesList(champId = championshipId, type = type)
                     .sortedBy { it.dateOfThe }
                     .map { it.toStageState(favoritesRepository.getFavoritesFlow().first()) }
             setLoading(false)

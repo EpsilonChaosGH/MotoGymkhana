@@ -1,7 +1,8 @@
 package com.example.motogymkhana.data
 
 
-import com.example.motogymkhana.data.model.getResult
+import android.util.Log
+import com.example.motogymkhana.utils.getResult
 import com.example.motogymkhana.data.model.ChampionshipResponse
 import com.example.motogymkhana.model.PostTimeRequestBody
 import com.example.motogymkhana.data.network.GymkhanaService
@@ -36,33 +37,22 @@ class GymkhanaCupRepositoryImpl @Inject constructor(
 
     override suspend fun getStage(id: String, type: String): StageResponse =
         withContext(Dispatchers.IO) {
-        return@withContext gymkhanaService.getStage(id = id, type = type).getResult()
-    }
-
-    override suspend fun getStagesList(championshipId: Long, type: String): List<StageResponse> =
-        withContext(Dispatchers.IO) {
-            val stagesIdList = mutableListOf<Long>()
-
-            gymkhanaService.getChampionship(id = championshipId.toString(), type = type)
-                .getResult().stages.map {
-                stagesIdList.add(it.id)
-            }
-
-            val stages = mutableListOf<StageResponse>()
-            stagesIdList.map {
-                async { gymkhanaService.getStage(id = it.toString(), type = type).getResult() }
-            }.awaitAll().forEach { stages.add(it) }
-            return@withContext stages
+            return@withContext gymkhanaService.getStage(id = id, type = type).getResult()
         }
 
-    override suspend fun getFavoriteStagesList(type: String, idList: List<Long>): List<StageResponse> =
+    override suspend fun getStagesList(champId: Long, type: String): List<StageResponse> =
         withContext(Dispatchers.IO) {
-            val stages = mutableListOf<StageResponse>()
+            return@withContext gymkhanaService.getChampionship(id = champId.toString(), type = type)
+                .getResult().stages.map {
+                    async { gymkhanaService.getStage(id = it.id.toString(), type = type).getResult() }
+                }.awaitAll()
+        }
 
-            idList.map {
+    override suspend fun getFavoriteStagesList(type: String, idList: List<Long>) =
+        withContext(Dispatchers.IO) {
+            return@withContext idList.map {
                 async { gymkhanaService.getStage(id = it.toString(), type = type).getResult() }
-            }.awaitAll().forEach { stages.add(it) }
-            return@withContext stages
+            }.awaitAll()
         }
 
     override suspend fun postTime(postTimeRequestBody: PostTimeRequestBody): Response<TimeResponse> {

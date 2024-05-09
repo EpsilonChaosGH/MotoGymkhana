@@ -58,6 +58,9 @@ dependencies {
 
 //    implementation("com.android.support:design:28.0.0")
 
+    //Swipe refresh
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+
     //Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-moshi:2.9.0")

@@ -17,7 +17,7 @@ interface GymkhanaService {
 
     @GET("championships/list?")
     suspend fun getChampionshipsList(
-        @Query("signature") signature: String = Const.TEST_APP_ID,
+        @Query("signature") signature: String = Const.APP_ID,
         @Query("type") type: String = Type.Offline.value,
         @Query("fromYear") fromYear: String = Const.fromYear,
         @Query("toYear") toYear: String = Const.toYear,
@@ -25,14 +25,14 @@ interface GymkhanaService {
 
     @GET("championships/get?")
     suspend fun getChampionship(
-        @Query("signature") signature: String = Const.TEST_APP_ID,
+        @Query("signature") signature: String = Const.APP_ID,
         @Query("id") id: String,
         @Query("type") type: String,
     ): Response<ChampionshipResponse>
 
     @GET("stages/get?")
     suspend fun getStage(
-        @Query("signature") signature: String = Const.TEST_APP_ID,
+        @Query("signature") signature: String = Const.APP_ID,
         @Query("id") id: String,
         @Query("type") type: String,
     ): Response<StageResponse>
@@ -40,7 +40,7 @@ interface GymkhanaService {
     @Multipart
     @POST("stages/add-time?")
     suspend fun postTime(
-    @Query("signature") signature: String = Const.TEST_APP_ID,
-    @PartMap map: HashMap<String?, RequestBody?>
+        @Query("signature") signature: String = Const.APP_ID,
+        @PartMap map: HashMap<String?, RequestBody?>
     ): Response<TimeResponse>
 }

@@ -15,6 +15,7 @@ interface StageListener {
     fun showStageDetails(id: Long)
 
     fun addStageIdToFavorites(id: Long)
+
     fun deleteFromFavoritesByStageId(id: Long)
 
 }
@@ -48,14 +49,14 @@ class StageAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(item: StageState, listener: StageListener) = with(binding) {
 
-            if (item.isFavorites){
+            if (item.isFavorites) {
                 favoriteImageView.setImageResource(R.drawable.ic_favorite)
             } else {
                 favoriteImageView.setImageResource(R.drawable.ic_favorite_false)
             }
 
             favoriteImageView.setOnClickListener {
-                if (item.isFavorites){
+                if (item.isFavorites) {
                     listener.deleteFromFavoritesByStageId(item.stageID)
                 } else {
                     listener.addStageIdToFavorites(item.stageID)

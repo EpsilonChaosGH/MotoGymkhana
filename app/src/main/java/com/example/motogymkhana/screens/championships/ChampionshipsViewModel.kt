@@ -47,7 +47,7 @@ class ChampionshipsViewModel @Inject constructor(
     )
 
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
-        Log.e("aaa", exception.message.toString())
+        Log.e("aaa-ChampionshipsViewModel", exception.message.toString())
         val result = when (exception) {
             is IOException -> R.string.error
             else -> R.string.error
@@ -64,8 +64,12 @@ class ChampionshipsViewModel @Inject constructor(
         viewModelScope.launch(exceptionHandler) {
             setLoading(true)
             _stages.value =
-                gymkhanaCupRepository.getChampionshipsList(Type.Offline.value, Const.fromYear, Const.toYear)
-                    .sortedBy { it.id }
+                gymkhanaCupRepository.getChampionshipsList(
+                    Type.Offline.value,
+                    Const.fromYear,
+                    Const.toYear
+                )
+                    .sortedBy { it.year }
                     .map { it.toChampionshipsState() }
             setLoading(false)
         }

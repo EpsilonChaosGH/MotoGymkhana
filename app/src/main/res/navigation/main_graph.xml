@@ -5,12 +5,11 @@
     android:id="@+id/main_graph"
     app:startDestination="@id/menuFragment">
 
-
     <fragment
         android:id="@+id/menuFragment"
         android:name="com.example.motogymkhana.screens.menu.MenuFragment"
-        tools:layout="@layout/fragment_menu"
-        android:label="MenuFragment" >
+        android:label="MenuFragment"
+        tools:layout="@layout/fragment_menu">
         <action
             android:id="@+id/action_menuFragment_to_stageDetailsFragment"
             app:destination="@id/stageDetailsFragment" />
@@ -18,44 +17,51 @@
             android:id="@+id/action_menuFragment_to_championshipsFragment"
             app:destination="@id/championshipsFragment" />
         <action
-            android:id="@+id/action_menuFragment_to_fragmentTest"
-            app:destination="@id/fragmentTest" />
+            android:id="@+id/action_menuFragment_to_stopWatchFragment"
+            app:destination="@id/stopWatchFragment" />
     </fragment>
     <fragment
         android:id="@+id/stagesFragment"
-        tools:layout="@layout/fragment_stages"
         android:name="com.example.motogymkhana.screens.stages.StagesFragment"
-        android:label="StagesFragment" >
+        android:label="StagesFragment"
+        tools:layout="@layout/fragment_stages">
         <action
             android:id="@+id/action_stagesFragment_to_stageDetailsFragment"
             app:destination="@id/stageDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/stageDetailsFragment"
-        tools:layout="@layout/fragment_stage_details"
         android:name="com.example.motogymkhana.screens.stagedetails.StageDetailsFragment"
-        android:label="StageDetailsFragment" >
+        android:label="StageDetailsFragment"
+        tools:layout="@layout/fragment_stage_details">
         <action
             android:id="@+id/action_stageDetailsFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
+        <action
+            android:id="@+id/action_stageDetailsFragment_to_stopWatchFragment"
+            app:destination="@id/stopWatchFragment" />
     </fragment>
     <fragment
         android:id="@+id/championshipsFragment"
-        tools:layout="@layout/fragment_championships"
         android:name="com.example.motogymkhana.screens.championships.ChampionshipsFragment"
-        android:label="ChampionshipsFragment" >
+        android:label="ChampionshipsFragment"
+        tools:layout="@layout/fragment_championships">
         <action
             android:id="@+id/action_championshipsFragment_to_stagesFragment"
             app:destination="@id/stagesFragment" />
     </fragment>
     <fragment
-        android:id="@+id/fragmentTest"
-        tools:layout="@layout/fragment_test"
-        android:name="com.example.motogymkhana.screens.menu.FragmentTest"
-        android:label="FragmentTest" />
-    <fragment
-        tools:layout="@layout/fragment_settings"
         android:id="@+id/settingsFragment"
         android:name="com.example.motogymkhana.screens.settings.SettingsFragment"
-        android:label="SettingsFragment" />
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/stopWatchFragment"
+        android:name="com.example.motogymkhana.screens.stopwatch.StopWatchFragment"
+        android:label="TimeFragment"
+        tools:layout="@layout/fragment_stop_watch" >
+        <action
+            android:id="@+id/action_stopWatchFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
 </navigation>

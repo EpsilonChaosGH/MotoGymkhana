@@ -3,6 +3,7 @@
 
     <!--    TOASTS-->
     <string name="error">ERROR!!!</string>
+    <string name="error_io">IO ERROR!!!</string>
 
 
     <!--    TITLES-->
@@ -12,7 +13,7 @@
 
 
     <!--    BUTTONS-->
-    <string name="open_championships_bt">OPEN CHAMPIONSHIPS</string>
+    <string name="open_championships_bt">CHAMPIONSHIPS</string>
 
 
     <string name="favorites_list_is_empty">favorites list is empty</string>
@@ -22,5 +23,6 @@
     <string name="first_attempt">First attempt</string>
     <string name="time">TIME</string>
     <string name="save_settings">SAVE SETTINGS</string>
+    <string name="stop_watch_bt">STOP WATCH</string>
 
 </resources>

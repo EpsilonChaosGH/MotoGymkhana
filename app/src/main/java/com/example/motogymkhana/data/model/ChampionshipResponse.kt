@@ -2,7 +2,7 @@ package com.example.motogymkhana.data.model
 
 import com.squareup.moshi.Json
 
-data class ChampionshipResponse (
+data class ChampionshipResponse(
     val id: Long,
     val title: String,
     val year: Long,
@@ -12,10 +12,10 @@ data class ChampionshipResponse (
 
     data class Stage(
         val id: Long,
-//    val status: Status,
-        val title: String,
-        val description: String,
-        val usersCount: Long,
+        val status: String? = null,
+        val title: String? = null,
+        val description: String? = null,
+        val usersCount: Long? = null,
 
         @field:Json(name = "class")
         val stageClass: String? = null,
@@ -23,8 +23,8 @@ data class ChampionshipResponse (
         @field:Json(name = "trackUrl")
         val trackURL: String? = null,
 
-        val city: String,
-        val dateOfThe: Long,
+        val city: String? = null,
+        val dateOfThe: Long? = null,
         val referenceTimeSeconds: Long? = null,
         val referenceTime: String? = null,
         val bestTimeSeconds: Long? = null,
@@ -38,17 +38,4 @@ data class ChampionshipResponse (
         val bestUserFullName: String? = null,
         val bestUserCity: String? = null
     )
-
-    enum class Status(val value: String) {
-        ПрошедшийЭтап("Прошедший этап"),
-        ЭтапОтменён("Этап отменён");
-
-        companion object {
-            public fun fromValue(value: String): Status = when (value) {
-                "Прошедший этап" -> ПрошедшийЭтап
-                "Этап отменён" -> ЭтапОтменён
-                else -> throw IllegalArgumentException()
-            }
-        }
-    }
 }

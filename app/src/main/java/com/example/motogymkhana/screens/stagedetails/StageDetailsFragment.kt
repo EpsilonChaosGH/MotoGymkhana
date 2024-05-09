@@ -2,16 +2,19 @@ package com.example.motogymkhana.screens.stagedetails
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.motogymkhana.Const
 import com.example.motogymkhana.R
+import com.example.motogymkhana.data.StopWatchService
 import com.example.motogymkhana.databinding.FragmentStageDetailsBinding
 import com.example.motogymkhana.model.Attempt
 import com.example.motogymkhana.model.IsActive
@@ -21,6 +24,12 @@ import com.example.motogymkhana.model.UserResultState
 import com.example.motogymkhana.model.UserStatus
 import com.example.motogymkhana.utils.collectFlow
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class StageDetailsFragment : Fragment(R.layout.fragment_stage_details) {
@@ -31,9 +40,13 @@ class StageDetailsFragment : Fragment(R.layout.fragment_stage_details) {
 
     private lateinit var adapter: UserAdapter
 
+    @Inject
+    lateinit var stopWatchService: StopWatchService
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
         super.onViewCreated(view, savedInstanceState)
+
+        val stageId = requireArguments().getLong(Const.STAGE_ID_KEY)
 
         adapter = UserAdapter(object : UserListener {
 
@@ -44,7 +57,6 @@ class StageDetailsFragment : Fragment(R.layout.fragment_stage_details) {
             override fun setActive(isActive: IsActive, participantID: Long) {
                 viewModel.setActive(isActive, participantID)
             }
-
             override fun closeMenu() {
                 menuConstraintLayout.isVisible = false
             }
@@ -53,13 +65,29 @@ class StageDetailsFragment : Fragment(R.layout.fragment_stage_details) {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        val stageId = requireArguments().getLong(Const.STAGE_ID_KEY)
+        refreshLayout.setColorSchemeResources(R.color.onBackground)
+        refreshLayout.setProgressBackgroundColorSchemeResource(R.color.primary)
+        refreshLayout.setOnRefreshListener { viewModel.refresh() }
 
         viewModel.getStageInfo(id = stageId.toString(), type = Type.Offline.value)
 
         timeSettingsImageView.setOnClickListener {
             findNavController().navigate(R.id.action_stageDetailsFragment_to_settingsFragment)
         }
+
+        currentTimeTextView.setOnClickListener {
+            findNavController().navigate(R.id.action_stageDetailsFragment_to_stopWatchFragment)
+        }
+
+        stopWatchService.getTimeFlow()
+            .onEach {
+                requireActivity().runOnUiThread {
+                    currentTimeTextView.text = it
+                }
+            }
+            .catch { Log.e("aaa_catch", it.message.toString()) }
+            .flowOn(Dispatchers.IO)
+            .launchIn(viewLifecycleOwner.lifecycleScope)
 
         observeStageState()
     }
@@ -73,6 +101,11 @@ class StageDetailsFragment : Fragment(R.layout.fragment_stage_details) {
         timeInputText.hint = attempt.title
 
         when (user.userStatus) {
+            UserStatus.FINISHED -> {
+                numberTextView.setTextColor(Color.WHITE)
+                numberTextView.setBackgroundResource(user.userStatus.colorResId)
+            }
+
             UserStatus.RIDES -> {
                 numberTextView.setTextColor(Color.WHITE)
                 numberTextView.setBackgroundResource(user.userStatus.colorResId)
@@ -105,7 +138,7 @@ class StageDetailsFragment : Fragment(R.layout.fragment_stage_details) {
         }
 
         timeButton.setOnClickListener {
-            timeEditText.setText(viewModel.uiState.value?.currentTime)
+            timeEditText.setText(currentTimeTextView.text)
         }
 
         saveButton.setOnClickListener {
@@ -135,9 +168,7 @@ class StageDetailsFragment : Fragment(R.layout.fragment_stage_details) {
                 adapter.items = it.results
             }
 
-            currentTimeTextView.text = state.currentTime
-            progressBar.isVisible = state.isLoading
-
+            refreshLayout.isRefreshing = state.isLoading
             state.userMessage.get()?.let {
                 Toast.makeText(requireContext(), getString(it), Toast.LENGTH_SHORT).show()
             }

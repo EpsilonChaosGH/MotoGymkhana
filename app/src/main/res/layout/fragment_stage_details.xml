@@ -6,52 +6,58 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
-<!--    <TextView-->
-<!--        android:id="@+id/stageTextView"-->
-<!--        style="@style/TitleTextView"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_margin="@dimen/medium_space"-->
-<!--        android:background="@drawable/layout_bg"-->
-<!--        android:padding="@dimen/low_space"-->
-<!--        android:textColor="@color/white"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent"-->
-<!--        tools:text="@string/stages_title" />-->
-
     <TextView
         android:id="@+id/currentTimeTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:text="00:00.00"
         android:textColor="@color/white"
         android:textSize="84sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="01:00.11" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <ImageView
+        android:id="@+id/timeSettingsImageView"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:layout_constraintEnd_toEndOf="@+id/currentTimeTextView"
+        app:layout_constraintTop_toTopOf="@+id/currentTimeTextView"
+        app:srcCompat="@drawable/ic_settings" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/menuConstraintLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/currentTimeTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/currentTimeTextView">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/menuConstraintLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/currentTimeTextView" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/menuConstraintLayout"
-        android:paddingTop="@dimen/low_space"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/gray"
+        android:background="@color/black"
+        android:paddingTop="@dimen/low_space"
         android:visibility="gone"
-        tools:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible">
 
 
         <androidx.cardview.widget.CardView
@@ -107,6 +113,8 @@
                 android:id="@+id/timeEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:digits="0123456789.:"
+                android:inputType="time"
                 android:textColor="@color/onBackground"
                 tools:text="01:00.11" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -154,28 +162,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="120dp"
-        android:indeterminate="true"
-        android:indeterminateTint="@color/onBackground"
-        android:indeterminateTintMode="src_atop"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-
-        <ImageView
-            android:id="@+id/timeSettingsImageView"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            app:layout_constraintEnd_toEndOf="@+id/currentTimeTextView"
-            app:layout_constraintTop_toTopOf="@+id/currentTimeTextView"
-            app:srcCompat="@drawable/ic_settings" />
 </androidx.constraintlayout.widget.ConstraintLayout>

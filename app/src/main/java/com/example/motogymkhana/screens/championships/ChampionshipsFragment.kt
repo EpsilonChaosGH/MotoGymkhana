@@ -24,7 +24,7 @@ class ChampionshipsFragment : Fragment(R.layout.fragment_championships) {
 
     private val viewModel by viewModels<ChampionshipsViewModel>()
 
-    private val adapter = ChampionshipAdapter(object : ChampionshipsListener{
+    private val adapter = ChampionshipAdapter(object : ChampionshipsListener {
         override fun showStagesList(championship: ChampionshipState) {
             findNavController().navigate(
                 R.id.action_championshipsFragment_to_stagesFragment,

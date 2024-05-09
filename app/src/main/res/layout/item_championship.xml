@@ -13,11 +13,11 @@
     <TextView
         android:id="@+id/dataTextView"
         style="@style/TitleTextView"
-        android:textSize="18sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="11.01.2023" />
+        tools:text="2023" />
 
     <TextView
         android:id="@+id/titleTextView"

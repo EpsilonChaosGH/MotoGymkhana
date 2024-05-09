@@ -27,7 +27,7 @@ class StagesFragment : Fragment(R.layout.fragment_stages) {
 
     private var championshipId: ChampionshipState? = null
 
-    private val adapter = StageAdapter(object : StageListener{
+    private val adapter = StageAdapter(object : StageListener {
         override fun showStageDetails(id: Long) {
 
             findNavController().navigate(
@@ -50,7 +50,7 @@ class StagesFragment : Fragment(R.layout.fragment_stages) {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        championshipId  = requireArguments().getParcelable(Const.CHAMPIONSHIPS_ID_KEY)
+        championshipId = requireArguments().getParcelable(Const.CHAMPIONSHIPS_ID_KEY)
 
         championshipId?.let {
             viewModel.loadStages(championshipId = it.id, type = Type.Offline.value)

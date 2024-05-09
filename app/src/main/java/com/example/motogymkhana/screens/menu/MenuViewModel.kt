@@ -36,7 +36,7 @@ class MenuViewModel @Inject constructor(
         _stages,
         _userMessage,
         _isLoading,
-    ) { stages, userMessage, isLoading->
+    ) { stages, userMessage, isLoading ->
         StagesScreenState(
             stages = stages,
             userMessage = userMessage,
@@ -49,7 +49,7 @@ class MenuViewModel @Inject constructor(
     )
 
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
-        Log.e("aaa-MenuViewModel",exception.message.toString())
+        Log.e("aaa-MenuViewModel", exception.message.toString())
         exception.stackTrace
         val result = when (exception) {
             is IOException -> R.string.error
@@ -64,9 +64,8 @@ class MenuViewModel @Inject constructor(
     }
 
     private fun loadStages() {
-
         viewModelScope.launch(exceptionHandler) {
-            favoritesRepository.getFavoritesFlow().collect{favorites ->
+            favoritesRepository.getFavoritesFlow().collect { favorites ->
                 setLoading(true)
                 _stages.value = gymkhanaCupRepository.getFavoriteStagesList(
                     type = Type.Offline.value,

@@ -22,10 +22,12 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) = with(binding) {
         super.onViewCreated(view, savedInstanceState)
 
+        refreshTimeEditText.setText(settings.getRefreshTime().toString())
         ipEditText.setText(settings.getControllerIp())
         requestEditText.setText(settings.getRequest())
 
         saveSettingsButton.setOnClickListener {
+            settings.setRefreshTime(refreshTimeEditText.text.toString().toLong())
             settings.setControllerIp(ipEditText.text.toString())
             settings.setRequest(requestEditText.text.toString())
             findNavController().navigateUp()

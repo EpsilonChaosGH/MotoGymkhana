@@ -10,11 +10,9 @@ data class UserResultState(
     val userLastName: String,
     val userFirstName: String,
     val userCity: String,
-    // val userCountry: UserCountry,
     val motorcycle: String,
     val athleteClass: String,
     val placeInAthleteClass: Long? = null,
-//      val champClass: ChampClass,
     val champClass: String?,
     val placeInChampClass: Long? = null,
     val attempts: List<AttemptState>,
@@ -26,9 +24,6 @@ data class UserResultState(
     val order: String? = null,
 
     val isActive: IsActive = IsActive.INACTIVE
-
-//    val currentTime: Long = 0L,
-//    val openTimeMenu: Boolean = false
 ) {
 
     data class AttemptState(

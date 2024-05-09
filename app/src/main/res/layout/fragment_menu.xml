@@ -18,7 +18,8 @@
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/favoritesEmptyTextView"
@@ -26,7 +27,7 @@
         android:layout_height="wrap_content"
         android:text="@string/favorites_list_is_empty"
         android:textColor="@color/onBackground"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/openTimeButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -39,19 +40,20 @@
         android:layout_marginBottom="@dimen/medium_space"
         android:background="@color/background"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@id/openChampionshipsButton"
+        app:layout_constraintBottom_toTopOf="@+id/openTimeButton"
         app:layout_constraintTop_toBottomOf="@+id/favoritesTextView"
-        tools:context=".app.screens.main.favorites.FavoritesFragment" />
+        tools:context=".app.screens.main.favorites.FavoritesFragment"
+        tools:listitem="@layout/item_championship"
+        tools:visibility="visible" />
 
-<!--    <Button-->
-<!--        android:id="@+id/openTestButton"-->
-<!--        style="@style/ButtonStyle"-->
-<!--        android:layout_margin="@dimen/medium_space"-->
-<!--        android:text="OPEN TEST CONTROLLER"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintBottom_toTopOf="@id/openChampionshipsButton"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent" />-->
+    <Button
+        android:id="@+id/openTimeButton"
+        style="@style/ButtonStyle"
+        android:layout_margin="@dimen/medium_space"
+        android:text="@string/stop_watch_bt"
+        app:layout_constraintBottom_toTopOf="@+id/openChampionshipsButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/openChampionshipsButton"
@@ -66,12 +68,13 @@
         android:id="@+id/progressBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="120dp"
+        android:layout_marginBottom="@dimen/medium_space"
         android:indeterminate="true"
         android:indeterminateTint="@color/onBackground"
         android:indeterminateTintMode="src_atop"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/openTimeButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:visibility="visible" />
 </androidx.constraintlayout.widget.ConstraintLayout>

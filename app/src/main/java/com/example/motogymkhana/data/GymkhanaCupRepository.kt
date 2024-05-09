@@ -15,7 +15,7 @@ interface GymkhanaCupRepository {
     suspend fun getStage(id: String, type: String): StageResponse
 
     @Throws
-    suspend fun getStagesList(championshipId: Long, type: String): List<StageResponse>
+    suspend fun getStagesList(champId: Long, type: String): List<StageResponse>
 
     @Throws
     suspend fun getFavoriteStagesList(type: String, idList: List<Long>): List<StageResponse>

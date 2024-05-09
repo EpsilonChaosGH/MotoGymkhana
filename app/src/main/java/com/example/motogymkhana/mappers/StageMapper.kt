@@ -1,42 +1,39 @@
 package com.example.motogymkhana.mappers
 
 import com.example.motogymkhana.data.model.StageResponse
-import com.example.motogymkhana.model.FirebaseStatus
 import com.example.motogymkhana.model.StageState
 import com.example.motogymkhana.model.UserResultState
 import com.example.motogymkhana.model.UserStatus
 import com.example.motogymkhana.utils.FORMAT_dd_MM_yyyy
 import com.example.motogymkhana.utils.format
 
-fun StageResponse.toStageState(favoritesList: List<Long>? = null, firebaseStatusList: List<FirebaseStatus>? = null) = StageState(
+fun StageResponse.toStageState(favoritesList: List<Long>? = null) = StageState(
     stageID = stageId,
     champID = champID,
-//    classes = classes,
+    classes = classes,
     champTitle = champTitle,
-//    status = status,
+    status = status,
     title = title,
-//    description = description,
-//    usersCount = usersCount,
-//    stageClass = stageClass,
-//    trackURL = trackUrl,
-//    city = city,
-    dateOfThe = dateOfThe.format(FORMAT_dd_MM_yyyy),
-//    referenceTimeSeconds = referenceTimeSeconds,
-//    referenceTime = referenceTime,
-    results = results.map { result ->
-        var status = UserStatus.WAITING
-//        firebaseStatusList.forEach {
-//            if (it.participantID == result.participantID) status = it.userStatus
-//        }
-        result.toUserResultState(status)
-    }.sortedBy { it.order },
+    description = description,
+    usersCount = usersCount,
+    stageClass = stageClass,
+    trackURL = trackUrl,
+    city = city,
+    dateOfThe = dateOfThe?.format(FORMAT_dd_MM_yyyy) ?: "0",
+    referenceTimeSeconds = referenceTimeSeconds,
+    referenceTime = referenceTime,
+    results = results.map { it.toUserResultState() }.sortedBy { it.userStatus.ordinal },
     isFavorites = favoritesList?.contains(stageId) ?: false
 )
 
-private fun StageResponse.UserResult.toUserResultState(userStatus: UserStatus) =
+private fun StageResponse.UserResult.toUserResultState() =
     UserResultState(
         participantID = participantID,
-        userStatus = userStatus,
+        userStatus = if (attempts.getOrNull(0) != null && attempts.getOrNull(1) != null) {
+            UserStatus.FINISHED
+        } else {
+            UserStatus.WAITING
+        },
         userID = userID,
         userFullName = userFullName,
         userLastName = userLastName,

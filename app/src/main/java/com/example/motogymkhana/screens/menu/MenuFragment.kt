@@ -51,9 +51,9 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
             openChampionships()
         }
 
-//        openTestButton.setOnClickListener {
-//            openTest()
-//        }
+        openTimeButton.setOnClickListener {
+            openTime()
+        }
 
         observeStagesState()
     }
@@ -73,11 +73,11 @@ class MenuFragment : Fragment(R.layout.fragment_menu) {
         }
     }
 
-    private fun openChampionships(){
+    private fun openChampionships() {
         findNavController().navigate(R.id.action_menuFragment_to_championshipsFragment)
     }
 
-    private fun openTest(){
-        findNavController().navigate(R.id.action_menuFragment_to_fragmentTest)
+    private fun openTime() {
+        findNavController().navigate(R.id.action_menuFragment_to_stopWatchFragment)
     }
 }

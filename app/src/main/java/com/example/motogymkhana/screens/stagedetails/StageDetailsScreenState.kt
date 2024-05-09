@@ -5,7 +5,6 @@ import com.example.motogymkhana.model.StageState
 
 data class StageDetailsScreenState(
     val stageState: StageState?,
-    val currentTime: String,
     val userMessage: SideEffect<Int?> = SideEffect(null),
     val isLoading: Boolean = false,
 )

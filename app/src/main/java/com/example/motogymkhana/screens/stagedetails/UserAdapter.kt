@@ -5,6 +5,8 @@ import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -54,6 +56,11 @@ class UserAdapter(
         fun onBind(item: UserResultState, listener: UserListener) = with(binding) {
 
             when (item.userStatus) {
+                UserStatus.FINISHED -> {
+                    usersNumberTextView.setTextColor(Color.WHITE)
+                    usersNumberTextView.setBackgroundResource(item.userStatus.colorResId)
+                }
+
                 UserStatus.RIDES -> {
                     usersNumberTextView.setTextColor(Color.WHITE)
                     usersNumberTextView.setBackgroundResource(item.userStatus.colorResId)
@@ -91,19 +98,30 @@ class UserAdapter(
             }
 
             userNameTextView.text = item.userFullName
-            userDetailsTextView.text = "${item.champClass} ${item.userCity}"
+            userDetailsTextView.text = "${item.athleteClass} ${item.userCity}"
             groupTextView.text = item.champClass
             usersNumberTextView.text = item.number
 
             val firstAttempt = item.attempts.getOrNull(0)
             if (firstAttempt != null) {
+                 if (firstAttempt.fine != null && firstAttempt.fine > 0 ) {
+                    firstAttemptFineTextView.setTextColor(when(firstAttempt.fine){
+                        in 1..3 -> Color.parseColor("#dde80e")
+                        in 4..5 -> Color.parseColor("#eb910c")
+                        else -> Color.parseColor("#e81c0e")
+                    })
+                    firstAttemptFineTextView.text = "+${firstAttempt.fine}"
+                    firstAttemptFineTextView.isVisible = true
+                } else {
+                    firstAttemptFineTextView.isVisible = false
+                }
                 firstAttemptTimeTextView.setText(
                     if (!firstAttempt.isFail) {
                         firstAttemptTimeTextView.paintFlags = Paint.ANTI_ALIAS_FLAG
-                        firstAttempt.resultTime
+                        firstAttempt.time
                     } else {
                         firstAttemptTimeTextView.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-                        firstAttempt.resultTime
+                        firstAttempt.time
                     }
                 )
             } else {
@@ -113,13 +131,24 @@ class UserAdapter(
 
             val secondAttempt = item.attempts.getOrNull(1)
             if (secondAttempt != null) {
+                if (secondAttempt.fine != null && secondAttempt.fine > 0 ) {
+                    secondAttemptFineTextView.setTextColor(when(secondAttempt.fine){
+                        in 1..3 -> Color.parseColor("#dde80e")
+                        in 4..5 -> Color.parseColor("#eb910c")
+                        else -> Color.parseColor("#e81c0e")
+                    })
+                    secondAttemptFineTextView.text = "+${secondAttempt.fine}"
+                    secondAttemptFineTextView.isVisible = true
+                } else {
+                    secondAttemptFineTextView.isVisible = false
+                }
                 secondAttemptTimeTextView.setText(
                     if (!secondAttempt.isFail) {
                         secondAttemptTimeTextView.paintFlags = Paint.ANTI_ALIAS_FLAG
-                        secondAttempt.resultTime
+                        secondAttempt.time
                     } else {
                         secondAttemptTimeTextView.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
-                        secondAttempt.resultTime
+                        secondAttempt.time
                     }
                 )
             } else {

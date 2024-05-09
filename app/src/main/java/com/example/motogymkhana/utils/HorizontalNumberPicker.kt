@@ -9,7 +9,8 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import com.example.motogymkhana.R
 
-class HorizontalNumberPicker(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs) {
+class HorizontalNumberPicker(context: Context, attrs: AttributeSet? = null) :
+    LinearLayout(context, attrs) {
     private var et_number: EditText
     private var min: Int = 0
     private var max: Int = 20

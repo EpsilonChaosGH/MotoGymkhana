@@ -11,20 +11,20 @@ data class StageResponse(
     @field:Json(name = "champId")
     val champID: Long,
 
-//    val classes: List<String>,
+    val classes: List<String>,
     val champTitle: String,
-//    val status: String,
+    val status: String? = null,
     val title: String,
-//    val description: String,
-//    val usersCount: Long,
+    val description: String,
+    val usersCount: Long,
 
-//    @field:Json(name = "class")
-//    val stageClass: String?,
-//    val trackUrl: String,
-//    val city: String,
-    val dateOfThe: Long,
-//    val referenceTimeSeconds: Long,
-//    val referenceTime: String,
+    @field:Json(name = "class")
+    val stageClass: String?,
+    val trackUrl: String? = null,
+    val city: String,
+    val dateOfThe: Long? = null,
+    val referenceTimeSeconds: Long? = null,
+    val referenceTime: String? = null,
     val results: List<UserResult>
 ) {
 
@@ -39,11 +39,10 @@ data class StageResponse(
         val userLastName: String,
         val userFirstName: String,
         val userCity: String,
-        // val userCountry: UserCountry,
+        val userCountry: String? = null,
         val motorcycle: String,
         val athleteClass: String,
         val placeInAthleteClass: Long? = null,
-        // val champClass: ChampClass,
         val champClass: String? = null,
         val placeInChampClass: Long? = null,
 
@@ -67,34 +66,4 @@ data class StageResponse(
         val isFail: Boolean = false,
         val video: Any? = null
     )
-
-    enum class ChampClass(val value: String) {
-        BC2("B-C2"),
-        D1C3("D1-C3"),
-        D3D2("D3-D2"),
-        ND4("N-D4");
-
-        companion object {
-            public fun fromValue(value: String): ChampClass = when (value) {
-                "B-C2" -> BC2
-                "D1-C3" -> D1C3
-                "D3-D2" -> D3D2
-                "N-D4" -> ND4
-                else -> throw IllegalArgumentException()
-            }
-        }
-    }
-
-    enum class UserCountry(val value: String) {
-        Беларусь("Беларусь"),
-        Россия("Россия");
-
-        companion object {
-            public fun fromValue(value: String): UserCountry = when (value) {
-                "Беларусь" -> Беларусь
-                "Россия" -> Россия
-                else -> throw IllegalArgumentException()
-            }
-        }
-    }
 }
