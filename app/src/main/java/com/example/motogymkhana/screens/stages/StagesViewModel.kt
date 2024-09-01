@@ -1,15 +1,14 @@
 package com.example.motogymkhana.screens.stages
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.motogymkhana.R
-import com.example.motogymkhana.utils.WhileUiSubscribed
 import com.example.motogymkhana.data.FavoritesRepository
 import com.example.motogymkhana.data.GymkhanaCupRepository
 import com.example.motogymkhana.mappers.toStageState
-import com.example.motogymkhana.utils.SideEffect
 import com.example.motogymkhana.model.StageState
+import com.example.motogymkhana.utils.SideEffect
+import com.example.motogymkhana.utils.WhileUiSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -48,7 +47,6 @@ class StagesViewModel @Inject constructor(
     )
 
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
-        Log.e("aaa_StagesViewModel", exception.message.toString())
         exception.stackTrace
         val result = when (exception) {
             is IOException -> R.string.error

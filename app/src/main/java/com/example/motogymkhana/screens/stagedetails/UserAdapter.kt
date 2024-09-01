@@ -5,7 +5,6 @@ import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -82,15 +81,17 @@ class UserAdapter(
                 }
             }
 
-            when(item.isActive){
+            when (item.isActive) {
                 IsActive.FIRST -> {
                     firstAttemptTimeTextView.setBackgroundResource(R.drawable.text_bg)
                     secondAttemptTimeTextView.setBackgroundResource(R.color.primary)
                 }
+
                 IsActive.SECOND -> {
                     firstAttemptTimeTextView.setBackgroundResource(R.color.primary)
                     secondAttemptTimeTextView.setBackgroundResource(R.drawable.text_bg)
                 }
+
                 IsActive.INACTIVE -> {
                     firstAttemptTimeTextView.setBackgroundResource(R.color.primary)
                     secondAttemptTimeTextView.setBackgroundResource(R.color.primary)
@@ -104,12 +105,14 @@ class UserAdapter(
 
             val firstAttempt = item.attempts.getOrNull(0)
             if (firstAttempt != null) {
-                 if (firstAttempt.fine != null && firstAttempt.fine > 0 ) {
-                    firstAttemptFineTextView.setTextColor(when(firstAttempt.fine){
-                        in 1..3 -> Color.parseColor("#dde80e")
-                        in 4..5 -> Color.parseColor("#eb910c")
-                        else -> Color.parseColor("#e81c0e")
-                    })
+                if (firstAttempt.fine != null && firstAttempt.fine > 0) {
+                    firstAttemptFineTextView.setTextColor(
+                        when (firstAttempt.fine) {
+                            in 1..3 -> Color.parseColor("#dde80e")
+                            in 4..5 -> Color.parseColor("#eb910c")
+                            else -> Color.parseColor("#e81c0e")
+                        }
+                    )
                     firstAttemptFineTextView.text = "+${firstAttempt.fine}"
                     firstAttemptFineTextView.isVisible = true
                 } else {
@@ -126,17 +129,21 @@ class UserAdapter(
                 )
             } else {
                 firstAttemptTimeTextView.setText("00:00.00")
+                firstAttemptFineTextView.isVisible = false
+                firstAttemptTimeTextView.paintFlags = Paint.ANTI_ALIAS_FLAG
             }
             firstAttemptTimeTextView.imeOptions = EditorInfo.IME_ACTION_DONE
 
             val secondAttempt = item.attempts.getOrNull(1)
             if (secondAttempt != null) {
-                if (secondAttempt.fine != null && secondAttempt.fine > 0 ) {
-                    secondAttemptFineTextView.setTextColor(when(secondAttempt.fine){
-                        in 1..3 -> Color.parseColor("#dde80e")
-                        in 4..5 -> Color.parseColor("#eb910c")
-                        else -> Color.parseColor("#e81c0e")
-                    })
+                if (secondAttempt.fine != null && secondAttempt.fine > 0) {
+                    secondAttemptFineTextView.setTextColor(
+                        when (secondAttempt.fine) {
+                            in 1..3 -> Color.parseColor("#dde80e")
+                            in 4..5 -> Color.parseColor("#eb910c")
+                            else -> Color.parseColor("#e81c0e")
+                        }
+                    )
                     secondAttemptFineTextView.text = "+${secondAttempt.fine}"
                     secondAttemptFineTextView.isVisible = true
                 } else {
@@ -153,6 +160,8 @@ class UserAdapter(
                 )
             } else {
                 secondAttemptTimeTextView.setText("00:00.00")
+                secondAttemptFineTextView.isVisible = false
+                secondAttemptTimeTextView.paintFlags = Paint.ANTI_ALIAS_FLAG
             }
             secondAttemptTimeTextView.imeOptions = EditorInfo.IME_ACTION_DONE
 

@@ -56,8 +56,6 @@ dependencies {
     implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
-//    implementation("com.android.support:design:28.0.0")
-
     //Swipe refresh
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 

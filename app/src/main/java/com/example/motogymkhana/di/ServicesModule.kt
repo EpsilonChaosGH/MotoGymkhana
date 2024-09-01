@@ -12,11 +12,9 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object ServicesModule {
 
-
     @Provides
     @Singleton
     fun providesStagesService(retrofit: Retrofit): GymkhanaService {
         return retrofit.create(GymkhanaService::class.java)
     }
-
 }

@@ -19,8 +19,8 @@ interface GymkhanaService {
     suspend fun getChampionshipsList(
         @Query("signature") signature: String = Const.APP_ID,
         @Query("type") type: String = Type.Offline.value,
-        @Query("fromYear") fromYear: String = Const.fromYear,
-        @Query("toYear") toYear: String = Const.toYear,
+        @Query("fromYear") fromYear: String = Const.FORM_YEAR,
+        @Query("toYear") toYear: String = Const.TO_YEAR,
     ): Response<List<ChampionshipResponse>>
 
     @GET("championships/get?")

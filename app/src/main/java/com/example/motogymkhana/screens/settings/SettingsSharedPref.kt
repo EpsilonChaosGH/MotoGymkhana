@@ -17,7 +17,7 @@ class SettingsSharedPref(
     }
 
     fun getRefreshTime(): Long =
-        sharedPreferences.getLong(PREF_REFRESH_TIME, Const.refreshTime)
+        sharedPreferences.getLong(PREF_REFRESH_TIME, Const.REFRESH_TIME)
 
     fun setControllerIp(ip: String) {
         sharedPreferences.edit()
@@ -26,7 +26,7 @@ class SettingsSharedPref(
     }
 
     fun getControllerIp(): String =
-        sharedPreferences.getString(PREF_CONTROLLER_IP, Const.controllerIp) ?: Const.controllerIp
+        sharedPreferences.getString(PREF_CONTROLLER_IP, Const.CONTROLLER_IP) ?: Const.CONTROLLER_IP
 
     fun setRequest(request: String) {
         sharedPreferences.edit()
@@ -35,8 +35,8 @@ class SettingsSharedPref(
     }
 
     fun getRequest(): String =
-        sharedPreferences.getString(PREF_REQUEST, Const.controllerRequest)
-            ?: Const.controllerRequest
+        sharedPreferences.getString(PREF_REQUEST, Const.CONTROLLER_REQUEST)
+            ?: Const.CONTROLLER_REQUEST
 
     companion object {
         private const val PREF_REFRESH_TIME = "PREF_REFRESH_TIME"

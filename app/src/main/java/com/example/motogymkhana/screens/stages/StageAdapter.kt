@@ -2,13 +2,11 @@ package com.example.motogymkhana.screens.stages
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.motogymkhana.R
 import com.example.motogymkhana.databinding.ItemStageBinding
 import com.example.motogymkhana.model.StageState
-import kotlinx.coroutines.launch
 
 interface StageListener {
 

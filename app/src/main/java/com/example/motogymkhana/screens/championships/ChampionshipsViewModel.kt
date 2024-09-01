@@ -66,8 +66,8 @@ class ChampionshipsViewModel @Inject constructor(
             _stages.value =
                 gymkhanaCupRepository.getChampionshipsList(
                     Type.Offline.value,
-                    Const.fromYear,
-                    Const.toYear
+                    Const.FORM_YEAR,
+                    Const.TO_YEAR
                 )
                     .sortedBy { it.year }
                     .map { it.toChampionshipsState() }

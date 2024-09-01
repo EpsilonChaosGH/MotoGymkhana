@@ -17,6 +17,5 @@ data class StageState(
     val referenceTimeSeconds: Long?,
     val referenceTime: String?,
     val results: List<UserResultState>,
-//    val attempt: Attempt = Attempt.First,
     val isFavorites: Boolean = false
 )
